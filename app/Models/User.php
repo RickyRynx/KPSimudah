@@ -6,21 +6,50 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as AuthenticatableUser;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 
 class User extends AuthenticatableUser implements Authenticatable
 {
-    use AuthenticatableTrait, HasFactory;
+    use AuthenticatableTrait, HasFactory, Notifiable;
+
+
+    public function isKetuaUKM()
+    {
+        return $this->role == 'ketuaMahasiswa';
+    }
+
+    public function isAdminSimudah()
+    {
+        return $this->role === 'adminSimudah';
+    }
+
+    public function isPembina()
+    {
+        return $this->role === 'pembina';
+    }
+
+    public function isPelatih()
+    {
+        return $this->role === 'pelatih';
+    }
+
+    public function isBidangKemahasiswaan()
+    {
+        return $this->role === 'bidangKemahasiswaan';
+    }
+
+    public function isAdminKeuangan()
+    {
+        return $this->role === 'adminKeuangan';
+    }
 
     protected $table = 'users';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'username', 'email', 'password'];
+    protected $fillable = ['name', 'username', 'password', 'role', 'status_user'];
 
-    // ... mungkin ada properti atau metode tambahan lainnya
-
-    // Contoh metode tambahan:
-    public function getAuthIdentifierName()
-    {
-        return 'username';
-    }
+    // public function ukm(){
+    //     return $this->hasMany(Ukm::class);
+    // }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,7 +33,21 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user = Auth::user();
+
+        if ($user->isKetuaUKM()) {
+            return redirect(RouteServiceProvider::HOME_KETUA_UKM);
+        } elseif ($user->isPembina()) {
+            return redirect(RouteServiceProvider::HOME_PEMBINA);
+        } elseif ($user->isPelatih()) {
+            return redirect(RouteServiceProvider::HOME_PELATIH);
+        } elseif ($user->isAdminSimudah()) {
+            return redirect(RouteServiceProvider::HOME_ADMIN_SIMUDAH);
+        } elseif ($user->isAdminKeuangan()) {
+            return redirect(RouteServiceProvider::HOME_ADMIN_KEUANGAN);
+        } elseif ($user->isBidangKemahasiswaan()) {
+            return redirect(RouteServiceProvider::HOME_BIDANG_KEMAHASISWAAN);
+        }
     }
 
     /**
@@ -49,6 +64,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

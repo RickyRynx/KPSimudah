@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kegiatan;
+use App\Models\Ukm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KegiatanController extends Controller
 {
@@ -13,10 +15,18 @@ class KegiatanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $kegiatans = Kegiatan::orderBy('id', 'asc')->paginate(5);
-        return view('ketuaUKM.kegiatan.index', compact('kegiatans'));
-    }
+{
+    $user = Auth::user();
+    $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+
+    // Perbaikan: Menggunakan relasi pada model Ukm untuk mengambil kegiatan
+    $kegiatans = $ukm->kegiatans()->orderBy('id', 'asc')->paginate(5);
+
+    return view('ketuaUKM.kegiatan.tampilan', compact('ukm', 'kegiatans'));
+}
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -25,7 +35,9 @@ class KegiatanController extends Controller
      */
     public function create()
     {
-        return view('ketuaUKM.kegiatan.tambah');
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+        return view('ketuaUKM.kegiatan.tambah', compact('ukm'));
     }
 
     /**
@@ -36,29 +48,52 @@ class KegiatanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validateData = $request->validate([
             'no_usulan' => 'required',
             'nama_kegiatan' => 'required',
             'afiliasi_lomba' => 'required',
             'file_usulan' => 'required|mimes:pdf',
             'skala_lomba' => 'required',
-            'laporan_lomba' => 'required'
+            'laporan_lomba' => 'required|mimes:pdf',
+            //'ukm_id' => 'required|exists:ukms,id'
         ]);
+
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
         $fileUsulan = $request->file('file_usulan');
-        $originalName = $fileUsulan->getClientOriginalName();
-        $fileUsulanPath = $fileUsulan->storeAs('', $originalName);
+        $laporanLomba = $request->file('laporan_lomba');
 
-        Kegiatan::create([
-            'no_usulan' => $request->no_usulan,
-            'nama_kegiatan' => $request->nama_kegiatan,
-            'afiliasi_lomba' => $request->afiliasi_lomba,
-            'file_usulan' => $fileUsulanPath,
-            'skala_lomba' => $request->skala_lomba,
-            'laporan_lomba' => $request->laporan_lomba
+    // Membedakan nama file usulan dan laporan lomba
+        $originalNameFileUsulan = $fileUsulan->getClientOriginalName();
+        $originalNameLaporanLomba = $laporanLomba->getClientOriginalName();
+
+    // Simpan file usulan
+        $fileUsulanPath = $fileUsulan->storeAs('', $originalNameFileUsulan);
+
+    // Simpan file laporan lomba
+        $laporanLombaPath = $laporanLomba->storeAs('', $originalNameLaporanLomba);
+
+    // Tambahkan nama file ke dalam data yang akan disimpan ke database
+        $validateData['file_usulan'] = $originalNameFileUsulan;
+        $validateData['laporan_lomba'] = $originalNameLaporanLomba;
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+
+        $kegiatan = new Kegiatan([
+            'no_usulan' => $validateData['no_usulan'],
+            'nama_kegiatan' => $validateData['nama_kegiatan'],
+            'afiliasi_lomba' => $validateData['afiliasi_lomba'],
+            'file_usulan' => $validateData['file_usulan'],
+            'skala_lomba' => $validateData['skala_lomba'],
+            'laporan_lomba' => $validateData['laporan_lomba'],
+            'ketuaMahasiswa_id' => $user->id, // Menetapkan ID user sebagai ketua
+            'ukm_id' => $ukm->id, // Menetapkan ID UKM
         ]);
 
-        return redirect()->route('kegiatan.index')->with('success', 'Kegiatan berhasil ditambahkan');
+        $kegiatan->save();
+
+        return redirect()->route('kegiatan.show', ['id' => $kegiatan->ukm_id])->with('success', 'Kegiatan berhasil ditambahkan');
     }
 
     /**
@@ -67,10 +102,16 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function show($id)
-    {
-        //
-    }
+{
+    $ukm = Ukm::findOrFail($id);
+    $kegiatans = $ukm->kegiatans ?? collect();
+    return view('ketuaUKM.kegiatan.show', compact('kegiatans', 'ukm'));
+}
 
     /**
      * Show the form for editing the specified resource.

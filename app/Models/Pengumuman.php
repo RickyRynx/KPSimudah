@@ -12,7 +12,14 @@ class Pengumuman extends Model
     protected $fillable = [
         'judul',
         'isi_pengumuman',
-        'upload_by',
-        'waktu_upload'
+        'ketuaMahasiswa_id',
+        'waktu_upload',
+        'ukm_id',
     ];
+
+    public function ketuaMahasiswa()
+    {
+        return $this->belongsTo(User::class, 'ketuaMahasiswa_id');
+    }
 }
+

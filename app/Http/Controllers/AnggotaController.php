@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anggota;
+use App\Models\Ukm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnggotaController extends Controller
 {
@@ -12,11 +14,18 @@ class AnggotaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $anggotas = Anggota::orderBy('id', 'asc')->paginate(5);
-        return view('ketuaUKM.anggota.index', compact('anggotas'));
-    }
+
+
+     public function index()
+     {
+         $user = Auth::user();
+         $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+
+         $anggotas = $ukm->anggotas ?? collect();
+
+         return view('ketuaUKM.anggota.tampilan', compact('ukm', 'anggotas'));
+     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -25,7 +34,11 @@ class AnggotaController extends Controller
      */
     public function create()
     {
-        return view('ketuaUKM.anggota.tambah');
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+        // dd($user);
+
+        return view('ketuaUKM.anggota.tambah', compact('ukm'));
     }
 
     /**
@@ -36,25 +49,33 @@ class AnggotaController extends Controller
      */
     public function store(Request $request)
     {
-
-        $this->validate($request, [
-            'npm' => 'required',
+        $validateData = $request->validate([
+            'npm' => 'required|numeric',
             'nama_mahasiswa' => 'required',
+            'nomor_hp' => 'required|numeric',
             'email' => 'required|email',
-            'nomor_hp' => 'required',
             'jabatan' => 'required',
-            'status' => 'required'
+            //'ukm_id' => 'required|exists:ukms,id',
+            'status_user' => 'string|max:255|in:Aktif,Tidak Aktif',
         ]);
 
-        Anggota::create([
-            'npm' => $request->npm,
-            'nama_mahasiswa' => $request->nama_mahasiswa,
-            'email' => $request->email,
-            'nomor_hp' => $request->nomor_hp,
-            'jabatan' => $request->jabatan,
-            'status' => $request->status
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+
+        $anggota = new Anggota([
+            'npm' => $validateData['npm'],
+            'nama_mahasiswa' => $validateData['nama_mahasiswa'],
+            'nomor_hp' => $validateData['nomor_hp'],
+            'email' => $validateData['email'],
+            'jabatan' => $validateData['jabatan'],
+            'status_user' => $validateData['status_user'],
+            'ketuaMahasiswa_id' => $user->id, // Menetapkan ID user sebagai ketua
+            'ukm_id' => $ukm->id, // Menetapkan ID UKM
         ]);
-        return redirect()->route('anggota.index')->with('success', 'Anggota berhasil ditambahkan');
+
+        $anggota->save();
+
+        return redirect()->route('anggota.show', ['id' => $anggota->ukm_id])->with('success', 'Anggota Berhasil Ditambahkan');
     }
 
     /**
@@ -65,8 +86,28 @@ class AnggotaController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+        $anggotas = $ukm->anggotas ?? collect(); // Gunakan ?? untuk mengatasi ketika $ukm->anggotas bernilai null
+        $anggotas = Anggota::orderBy('id', 'asc')->paginate(5);
+        return view('ketuaUKM.anggota.show', compact('anggotas', 'ukm'));
+
     }
+
+
+
+    public function showUserDetail($id)
+    {
+        $anggota = Anggota::findOrFail($id);
+
+    // Assumption: Ukm model has a relationship with User
+        $userId = optional($anggota->ukm->user)->id; // Mengambil ID user dari relasi Ukm
+
+        return redirect()->route('user.show', $userId);
+    }
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -88,7 +129,18 @@ class AnggotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validateData = $request->validate([
+            'npm' => 'required',
+            'nama_mahasiswa' => 'required',
+            'email' => 'required|email',
+            'nomor_hp' => 'required',
+            'jabatan' => 'required',
+            // 'ukm_id' => 'required|exists:ukms,id',
+            'status' => 'required',
+        ]);
+
+        $anggota = Anggota::findOrFail($id);
+        $anggota->update($validateData);
     }
 
     /**
@@ -99,7 +151,8 @@ class AnggotaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $anggota = Anggota::findOrFail($id);
+        $anggota->delete();
     }
 
 

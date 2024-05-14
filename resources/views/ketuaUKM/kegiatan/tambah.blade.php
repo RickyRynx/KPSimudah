@@ -43,13 +43,22 @@
 
                                 <div class="mb-3">
                                     <label for="laporan_lomba" class="form-label">Laporan</label>
-                                    <input type="text" class="form-control" name="laporan_lomba" required>
+                                    <input type="file" class="form-control" name="laporan_lomba" accept=".pdf" required>
                                 </div>
+
+                                {{-- <label for="ukm_id" style="margin-bottom: 5px;">Nama UKM/HMJ</label>
+                                <select name="ukm_id" class="form-control" style="margin-bottom: 10px;" required>
+                                    <option value=""selected>-</option>
+                                    @foreach ($ukm as $ukm)
+                                        <option value="{{ $ukm->id }}">{{ $ukm->nama_ukm }}</option>
+                                    @endforeach
+                                </select> --}}
 
                                 <button type="submit" class="btn btn-success btn-primary shadow-sm bg-green mb-2"
                                     style="background-color: green;">Tambah Kegiatan</button>
 
-                                <a href="/jadwal/create" class="btn btn-auto  btn-primary shadow-sm">
+                                <a href="{{ route('kegiatan.show', ['id' => $ukm->id]) }}"
+                                    class="btn btn-auto  btn-primary shadow-sm">
                                     <span class="icon text-black-50">
                                         <i class="fas fa-plus-square"></i>
                                     </span>

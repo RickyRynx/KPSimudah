@@ -26,20 +26,35 @@
                                     <input type="text" class="form-control" name="isi_pengumuman" required>
                                 </div>
 
-                                <div class="mb-1">
-                                    <label for="upload_by" class="form-label">Upload By</label>
-                                    <input type="text" class="form-control" name="upload_by" required>
-                                </div>
+                                {{-- <label for="ketuaMahasiswa_id" style="margin-bottom: 5px;">Upload By</label>
+                                <select name="ketuaMahasiswa_id" class="form-control" style="margin-bottom: 10px;" required>
+                                    <option value="" selected>-</option>
+                                    @foreach ($ketuaMahasiswas as $ketuaMahasiswa)
+                                        <option value="{{ $ketuaMahasiswa->id }}">
+                                            {{ $ketuaMahasiswa->name }}
+                                        </option>
+                                    @endforeach
+                                </select> --}}
 
                                 <div class="mb-3">
                                     <label for="waktu_upload" class="form-label">Waktu Upload</label>
                                     <input type="date" class="form-control" name="waktu_upload" required>
                                 </div>
 
+                                {{-- <label for="ukm_id" style="margin-bottom: 5px;">Nama UKM/HMJ</label>
+                                <select name="ukm_id" class="form-control" style="margin-bottom: 10px;" required>
+                                    <option value=""selected>-</option>
+                                    @foreach ($ukm as $ukm)
+                                        <option value="{{ $ukm->id }}">{{ $ukm->nama_ukm }}</option>
+                                    @endforeach
+
+                                </select> --}}
+
                                 <button type="submit" class="btn btn-success btn-primary shadow-sm bg-green mb-2"
                                     style="background-color: green;">Tambah Pengumuman</button>
 
-                                <a href="{{ route('pengumuman.create') }}" class="btn btn-auto  btn-primary shadow-sm">
+                                <a href="{{ route('pengumuman.show', ['id' => $ukm->id]) }}"
+                                    class="btn btn-auto  btn-primary shadow-sm">
                                     <span class="icon text-black-50">
                                         <i class="fas fa-plus-square"></i>
                                     </span>

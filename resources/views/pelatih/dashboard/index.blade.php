@@ -55,7 +55,7 @@
                 </a>
             </div>
 
-            <div class="col-xl-5 col-lg-6">
+            <div class="col-xl-6 col-lg-4">
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -94,7 +94,7 @@
         <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-7 col-lg-6">
+            <div class="col-xl-6 col-lg-6">
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -163,17 +163,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-2 mb-1">
-                                <div>Rabu</div>
-                                <div>26</div>
-                                <div>Juni</div>
-                                <div class="card bg-primary text-white shadow">
-                                    <div class="card-body mb-5 text-xs">
-                                        Primary
-                                        <div class="text-white-50 small">#4e73df</div>
-                                    </div>
-                                </div>
-                            </div>
+
 
                         </div>
                     </div>
@@ -181,7 +171,7 @@
             </div>
 
             <!-- Pie Chart -->
-            <div class="col-xl-5 col-lg-5">
+            <div class="col-xl-6 col-lg-5">
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">

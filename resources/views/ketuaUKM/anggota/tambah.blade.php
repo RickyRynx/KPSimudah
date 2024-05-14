@@ -18,7 +18,15 @@
                             <div class="card-body" style="display: flex; flex-direction: column;">
                                 <div class="mb-1">
                                     <label for="npm" class="form-label">NPM</label>
-                                    <input type="text" class="form-control" name="npm" required>
+                                    <input type="number" class="form-control @error('npm') is-invalid @enderror"
+                                        name="npm" required>
+                                    @error('npm')
+                                        <div class="text-danger">
+                                            <strong>
+                                                {{ $message }}
+                                            </strong>
+                                        </div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-1">
@@ -27,12 +35,21 @@
                                 </div>
 
                                 <div class="mb-1">
+                                    <label for="nomor_hp" class="form-label">No HP</label>
+                                    <input type="number" class="form-control @error('nomor_hp') is-invalid @enderror"
+                                        name="nomor_hp" required>
+                                    @error('nomor_hp')
+                                        <div class="text-danger">
+                                            <strong>
+                                                {{ $message }}
+                                            </strong>
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-1">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" name="email" required>
-                                </div>
-                                <div class="mb-1">
-                                    <label for="nomor_hp" class="form-label">No HP</label>
-                                    <input type="text" class="form-control" name="nomor_hp" required>
                                 </div>
 
                                 <div class="mb-1">
@@ -40,9 +57,20 @@
                                     <input type="text" class="form-control" name="jabatan" required>
                                 </div>
 
+                                {{-- <label for="ukm_id" style="margin-bottom: 5px;">Nama UKM/HMJ</label>
+                                <select name="ukm_id" class="form-control" style="margin-bottom: 10px;" required>
+                                    <option value=""selected>-</option>
+                                    @foreach ($ukm as $ukm)
+                                        <option value="{{ $ukm->id }}">{{ $ukm->nama_ukm }}</option>
+                                    @endforeach
+                                </select> --}}
+
+                                {{-- <input type="hidden" name="ukm_id" value="{{ $ukm->id }}"> --}}
+
+
                                 <div class="mb-3">
-                                    <label for="status" class="form-label">Status</label> <br>
-                                    <select name="status" name="status" class="form-control" required>
+                                    <label for="status_user" class="form-label">Status</label> <br>
+                                    <select name="status_user" class="form-control" required>
                                         <option value="Aktif" selected>Aktif</option>
                                         <option value="Non-aktif">Non Aktif</option>
                                     </select>
@@ -51,12 +79,26 @@
                                 <button type="submit" class="btn btn-success btn-primary shadow-sm bg-green mb-2"
                                     style="background-color: green;">Tambah Anggota</button>
 
-                                <a href="/anggota/create" class="btn btn-auto  btn-primary shadow-sm">
+                                <a href="{{ route('anggota.show', ['id' => $ukm->id]) }}"
+                                    class="btn btn-auto btn-primary shadow-sm">
                                     <span class="icon text-black-50">
                                         <i class="fas fa-plus-square"></i>
                                     </span>
                                     <span class="text">Batal</span>
                                 </a>
+
+                                {{-- @if (Auth::user()->ukm)
+                                    <a href="{{ route('anggota.show', ['id' => Auth::user()->ukm->id]) }}"
+                                        class="btn btn-auto btn-primary shadow-sm">
+                                        <span class="icon text-black-50">
+                                            <i class="fas fa-plus-square"></i>
+                                        </span>
+                                        <span class="text">Batal</span>
+                                    </a>
+                                @else
+                                    <!-- Tampilkan pesan atau lakukan tindakan alternatif jika user tidak terkait dengan UKM -->
+                                    User tidak terkait dengan UKM.
+                                @endif --}}
                                 <script>
                                     function validateForm() {
                                         var npm = document.getElementById('npm').value;

@@ -15,6 +15,12 @@ class Kegiatan extends Model
         'afiliasi_lomba',
         'file_usulan',
         'skala_lomba',
-        'laporan_lomba'
+        'laporan_lomba',
+        'ukm_id'
     ];
+
+    public function kegiatans()
+        {
+            return $this->hasMany(Kegiatan::class, 'ukm_id');
+        }
 }

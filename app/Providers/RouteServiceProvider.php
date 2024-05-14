@@ -17,7 +17,14 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    // public const HOME = '/dashboardKetuaUKM';
+
+    public const HOME_KETUA_UKM = '/dashboardKetuaUKM';
+    public const HOME_PEMBINA = '/dashboardPembina';
+    public const HOME_PELATIH = '/dashboardPelatih';
+    public const HOME_ADMIN_SIMUDAH = '/dashboardAdminSimudah';
+    public const HOME_ADMIN_KEUANGAN = '/dashboardAdminKeuangan';
+    public const HOME_BIDANG_KEMAHASISWAAN = '/dashboardBidangKemahasiswaan';
 
     /**
      * The controller namespace for the application.
@@ -60,4 +67,5 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
+
 }

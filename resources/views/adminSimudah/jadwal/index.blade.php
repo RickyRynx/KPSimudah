@@ -6,7 +6,7 @@
             <div class="card-header py-3">
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-0">
-                    <a href="/jadwal/addJadwalUKM" class="btn btn-auto  btn-primary shadow-sm">
+                    <a href="{{ route('jadwalAdminSimudah.create') }}" class="btn btn-auto btn-primary shadow-sm">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus-square"></i>
                         </span>
@@ -38,62 +38,46 @@
                 </div>
 
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">No</th>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">UKM/HMJ</th>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Hari</th>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Waktu</th>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Tempat</th>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Nama Pelatih
-                                </th>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Ketua
-                                    Mahasiswa</th>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Pembina</th>
-                                <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Aksi</th>
+                                <th scope="col">No</th>
+                                <th scope="col">Nama UKM</th>
+                                <th scope="col">Waktu Mulai</th>
+                                <th scope="col">Waktu Selesai</th>
+                                <th scope="col">Hari</th>
+                                <th scope="col">Tempat</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row" style="border: 1px solid; padding: 8px; text-align: left;"></th>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row" style="border: 1px solid; padding: 8px; text-align: left;"></th>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row" style="border: 1px solid; padding: 8px; text-align: left;"></th>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                            </tr>
+                            @forelse ($jadwals as $jadwal)
+                                <tr>
+                                    <td>{{ $jadwal->id }}</td>
+                                    <td>
+                                        @if ($jadwal->ukm)
+                                            {{ $jadwal->ukm->nama_ukm }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>{{ $jadwal->waktu_mulai }}</td>
+                                    <td>{{ $jadwal->waktu_selesai }}</td>
+                                    <td>{{ $jadwal->hari }}</td>
+                                    <td>{{ $jadwal->tempat }}</td>
+                                </tr>
+                            @empty
+                                <div class="alert alert-danger">
+                                    Data Jadwal Belum Tersedia.
+                                </div>
+                            @endforelse
                         </tbody>
                     </table>
+                    {{ $jadwals->links() }}
                 </div>
 
 
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-body d-flex justify-content-between align-items-center mb-0">
                         <div class="dataTables_info ml-2">Showing</div>
 
@@ -103,7 +87,7 @@
                             <button onclick="nextPage()">Next Page</button>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
 
                 <script>
@@ -153,4 +137,14 @@
         </div>
 
     </div>
+    <script>
+        //message with toastr
+        @if (session()->has('success'))
+
+            toastr.success('{{ session('success') }}', 'BERHASIL!');
+        @elseif (session()->has('error'))
+
+            toastr.error('{{ session('error') }}', 'GAGAL!');
+        @endif
+    </script>
 @endsection

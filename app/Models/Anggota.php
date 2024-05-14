@@ -7,14 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Anggota extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'npm',
         'nama_mahasiswa',
-        'email',
         'nomor_hp',
+        'email',
         'jabatan',
-        'status'
-    ];
+        'ukm_id',
+        'status_user'
+        ];
+
+        // Dalam model Ukm
+        public function anggotas()
+        {
+            return $this->hasMany(Anggota::class, 'ukm_id');
+        }
+
+        public function ukm()
+        {
+            return $this->belongsTo(Ukm::class);
+        }
+
 }

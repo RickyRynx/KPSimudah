@@ -4,6 +4,29 @@
         <!-- Content Row -->
         <div class="row">
 
+            <h1 id="welcome-message"></h1>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var welcomeMessage = document.getElementById('welcome-message');
+                    var hour = new Date().getHours();
+
+                    var greeting = '';
+
+                    if (hour >= 5 && hour < 12) {
+                        greeting = 'Selamat Pagi';
+                    } else if (hour >= 12 && hour < 17) {
+                        greeting = 'Selamat Siang';
+                    } else if (hour >= 17 && hour < 20) {
+                        greeting = 'Selamat Sore';
+                    } else {
+                        greeting = 'Selamat Malam';
+                    }
+
+                    welcomeMessage.textContent = greeting + ', {{ Auth::user()->name }}';
+                });
+            </script>
+
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <a class="list-group-item list-group-item-action" href="/anggota">
