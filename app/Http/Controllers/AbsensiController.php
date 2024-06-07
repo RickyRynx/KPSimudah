@@ -68,14 +68,22 @@ class AbsensiController extends Controller
             'waktu_selesai' => 'required',
         ]);
 
-        $image = $request->file('image');
-        $originalNameImage = $image->getClientOriginalName();
+
+        //ambil extensi //png / jpg / gif
+        $ext = $request->image->getClientOriginalExtension();
+
+        //ubah nama file file
+        $rename_file = 'file-' . time() . "." . $ext; //contoh file : file-timestamp.jpg
+
+        //upload foler ke dalam folder public
+        $request->image->storeAs('public/foto_absensi/', $rename_file); //bisa diletakan difolder lain dengan store ke public/(folderlain)
+
         $user = Auth::user(); // Mendapatkan informasi user yang sedang terautentikasi
         $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first(); // Mendapatkan UKM yang dikelola oleh user
         $validateData['user_id'] = Auth::id();
         $validateData['user_id'] = $user->id;
         $validateData['ukm_id'] = $ukm->id;
-        $validateData['image'] = $originalNameImage;
+        $validateData['image'] = $rename_file;
         $absensis = Absensi::create($validateData);
 
         $validateData1 = $request->validate([
@@ -135,7 +143,7 @@ class AbsensiController extends Controller
     public function show($id)
     {
         $ukm = Ukm::findOrFail($id);
-        $absensis = $ukm->absensis()->orderBy('id', 'asc')->paginate(5);
+        $absensis = $ukm->absensis()->orderBy('id', 'asc')->get();
         $anggota = Anggota::where('ukm_id', $ukm->id)->get();
         return view('ketuaUKM.absensi.show', compact('absensis', 'ukm', 'anggota'));
     }

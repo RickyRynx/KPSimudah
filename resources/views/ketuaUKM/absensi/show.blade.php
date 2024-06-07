@@ -30,17 +30,9 @@
 
             <div class="card-body py-3">
                 <h1>Absensi {{ $ukm->nama_ukm }}</h1>
-                <div class="row-per-page">
-                    Show rows per page:
-                    <select id="rowsPerPage" onchange="changeRowsPerPage()">
-                        <option value="5" selected>5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                    </select>
-                </div>
 
-                <div class="table-responsive mt-3">
-                    <table class="table table-bordered">
+                <div class="mt-3">
+                    <table class="table table-bordered table-responsive" id="dataTable">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
@@ -69,8 +61,11 @@
                                     <td>{{ $absensi->izin }}</td>
                                     <td>{{ $absensi->alfa }}</td>
                                     <td>{{ $absensi->keterangan }}</td>
-                                    <td><img src="{{ asset('storage/' . $absensi->image) }}" alt="{{ $absensi->image }}"
-                                            style="max-width: 100px;"></td>
+                                    <td>
+                                        <img src="{{ url('storage/foto_absensi/' . $absensi->image) }}"
+                                            alt="{{ $absensi->image }}" style="max-width: 100px;">
+
+                                    </td>
                                     <td>{{ $absensi->waktu_mulai }}</td>
                                     <td>{{ $absensi->waktu_selesai }}</td>
                                     <td>
@@ -93,20 +88,6 @@
                         </tbody>
                     </table>
                 </div>
-
-
-                <div class="card">
-                    <div class="card-body d-flex justify-content-between align-items-center mb-0">
-                        <div class="dataTables_info ml-2">Showing</div>
-
-                        <div class="paginate">
-                            <button onclick="previousPage()">Previous Page</button>
-                            <span id="pageNumber">1</span>
-                            <button onclick="nextPage()">Next Page</button>
-                        </div>
-                    </div>
-                </div>
-
 
                 <script>
                     var table = document.getElementById('tb_jadwal');

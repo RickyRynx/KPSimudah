@@ -47,7 +47,7 @@
                                     <input type="time" class="form-control" name="waktu_mulai" id="waktu_mulai" required>
                                 </div>
 
-                                <div class="mb-1">
+                                <div class="mb-3">
                                     <label for="waktu_selesai" class="form-label">Jam Selesai</label>
                                     <input type="time" class="form-control" name="waktu_selesai" id="waktu_selesai"
                                         required>
@@ -90,7 +90,7 @@
                                 </table>
 
 
-                                <button type="submit" class="btn btn-success btn-primary shadow-sm bg-green mb-2"
+                                <button type="submit" class="btn btn-success btn-primary shadow-sm bg-green mb-2 mt-2"
                                     style="background-color: green;">Tambah Absensi</button>
 
                                 <a href="{{ route('absensi.show', ['id' => $ukm->id]) }}"
@@ -129,7 +129,7 @@
                                         var minutes = currentTime.getMinutes();
                                         var formattedTime = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
                                         document.getElementById('waktu_mulai').value = formattedTime;
-                                        document.getElementById('waktu_selesai').value = formattedTime;
+                                        //document.getElementById('waktu_selesai').value = formattedTime;
 
                                         // Menampilkan jam saat di-klik
                                         document.getElementById('waktu_mulai').addEventListener('click', function() {

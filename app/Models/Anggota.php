@@ -28,4 +28,9 @@ class Anggota extends Model
             return $this->belongsTo(Ukm::class);
         }
 
+        public function absensiDetails()
+        {
+            return $this->hasMany(AbsensiDetail::class);
+        }
+
 }

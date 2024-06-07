@@ -13,4 +13,6 @@
     <p>Waktu Selesai: {{ $absensis->waktu_selesai }}</p>
 </body>
 
+<footer></footer>
+
 </html>

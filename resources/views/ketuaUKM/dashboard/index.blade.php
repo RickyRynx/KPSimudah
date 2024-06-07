@@ -1,9 +1,7 @@
 @extends('layout.master')
 @section('content')
     <div class="container">
-        <!-- Content Row -->
-        <div class="row">
-
+        <div class="mb-3">
             <h1 id="welcome-message"></h1>
 
             <script>
@@ -26,6 +24,10 @@
                     welcomeMessage.textContent = greeting + ', {{ Auth::user()->name }}';
                 });
             </script>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
@@ -82,7 +84,7 @@
                     <div class="card shadow h-100 py-0">
                         <div class="card-header py-2 align-items-top bg-dark">
                             <div class="col text-center">
-                                <h6 class="m-2 font-weight-bold text-primary">Kegiatan/Lomba</h6>
+                                <h6 class="m-2 font-weight-bold text-primary">Kegiatan</h6>
                             </div>
                         </div>
                         <div class="card-body">

@@ -25,7 +25,6 @@ use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PengumumanPelatihController;
 use App\Http\Controllers\UKMAdminSimudahController;
 use App\Http\Controllers\UserAdminSimudahController;
-use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,8 +66,8 @@ Route::resource('/ukm', UKMAdminSimudahController::class);
 Route::resource('/jadwalAdminSimudah', JadwalAdminSimudahController::class);
 Route::resource('/pengumumanAdminSimudah', PengumumanAdminSimudahController::class);
 Route::resource('/user', UserAdminSimudahController::class);
+Route::get('/laporanMahasiswa/{id}/{year}/{month}', [LaporanMahasiswaPembinaController::class, 'show'])->name('laporanMahasiswa');
 Route::resource('/laporanMahasiswa', LaporanMahasiswaPembinaController::class)->parameters(['laporanMahasiswa' => 'id']);
-
 // web.php atau berkas rute yang sesuai
 // Route::get('ketuaUKM/kegiatan/show', [KegiatanController::class, 'show'])->name('ketuaUKM.kegiatan.show');
 
