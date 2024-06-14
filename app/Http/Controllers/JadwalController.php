@@ -92,7 +92,7 @@ class JadwalController extends Controller
     {
         $ukm = Ukm::findOrFail($id);
         $jadwals = $ukm->jadwals ?? collect();
-        $jadwals = Jadwal::orderBy('id', 'asc')->paginate(5);
+        $jadwals = Jadwal::orderBy('id', 'asc')->get();
         return view('ketuaUKM.jadwal.show', compact('jadwals', 'ukm'));
     }
 

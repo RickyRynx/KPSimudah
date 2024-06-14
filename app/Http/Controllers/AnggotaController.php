@@ -89,7 +89,7 @@ class AnggotaController extends Controller
         $user = Auth::user();
         $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
         $anggotas = $ukm->anggotas ?? collect(); // Gunakan ?? untuk mengatasi ketika $ukm->anggotas bernilai null
-        $anggotas = Anggota::orderBy('id', 'asc')->paginate(5);
+        $anggotas = Anggota::orderBy('id', 'asc')->get();
         return view('ketuaUKM.anggota.show', compact('anggotas', 'ukm'));
 
     }

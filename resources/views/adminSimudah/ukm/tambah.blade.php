@@ -49,7 +49,7 @@
                                 <option value="Non-aktif">Non Aktif</option>
                             </select>
 
-                            <button type="submit" class="btn btn-auto btn-primary shadow-sm bg-green mb-2"
+                            <button type="submit" class="btn btn-auto btn-primary shadow-sm bg-green"
                                 style="background-color: green;">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-plus-square"></i>

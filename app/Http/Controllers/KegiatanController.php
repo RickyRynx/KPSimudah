@@ -20,7 +20,7 @@ class KegiatanController extends Controller
     $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
     // Perbaikan: Menggunakan relasi pada model Ukm untuk mengambil kegiatan
-    $kegiatans = $ukm->kegiatans()->orderBy('id', 'asc')->paginate(5);
+    $kegiatans = $ukm->kegiatans()->orderBy('id', 'asc')->get();
 
     return view('ketuaUKM.kegiatan.tampilan', compact('ukm', 'kegiatans'));
 }
@@ -69,10 +69,10 @@ class KegiatanController extends Controller
         $originalNameLaporanLomba = $laporanLomba->getClientOriginalName();
 
     // Simpan file usulan
-        $fileUsulanPath = $fileUsulan->storeAs('', $originalNameFileUsulan);
+        $fileUsulanPath = $fileUsulan->storeAs('public/file_usulan/', $originalNameFileUsulan);
 
     // Simpan file laporan lomba
-        $laporanLombaPath = $laporanLomba->storeAs('', $originalNameLaporanLomba);
+        $laporanLombaPath = $laporanLomba->storeAs('public/file_laporan/', $originalNameLaporanLomba);
 
     // Tambahkan nama file ke dalam data yang akan disimpan ke database
         $validateData['file_usulan'] = $originalNameFileUsulan;
@@ -109,6 +109,7 @@ class KegiatanController extends Controller
     public function show($id)
 {
     $ukm = Ukm::findOrFail($id);
+    $kegiatans = $ukm->kegiatans()->orderBy('id', 'asc')->get();
     $kegiatans = $ukm->kegiatans ?? collect();
     return view('ketuaUKM.kegiatan.show', compact('kegiatans', 'ukm'));
 }

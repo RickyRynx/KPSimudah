@@ -73,7 +73,7 @@ class InventarisController extends Controller
      */
     public function show($id)
     {
-        $inventaris = Inventaris::orderBy('id', 'asc')->paginate(5);
+        $inventaris = Inventaris::orderBy('id', 'asc')->get();
         // $inventaris = $ukm->inventaris ?? collect();
         $ukm = Ukm::findOrFail($id);
         return view('ketuaUKM.inventaris.show', compact('inventaris', 'ukm'));

@@ -85,7 +85,7 @@ class PengumumanController extends Controller
     {
         $ukm = Ukm::findOrFail($id);
         $pengumumen = $ukm->pengumumen ?? collect(); // Gunakan ?? untuk mengatasi ketika $ukm->anggotas bernilai null
-        // $pengumumen = Pengumuman::orderBy('id', 'asc')->paginate(5);
+        $pengumumen = Pengumuman::orderBy('id', 'asc')->get();
         return view('ketuaUKM.pengumuman.show', compact('pengumumen', 'ukm'));
     }
 

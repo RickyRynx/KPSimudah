@@ -142,9 +142,41 @@ class AbsensiController extends Controller
      */
     public function show($id)
     {
+
         $ukm = Ukm::findOrFail($id);
-        $absensis = $ukm->absensis()->orderBy('id', 'asc')->get();
+        // $absensis = $ukm->absensis()->orderBy('id', 'asc')->get();
+        // dd("print");
+        // dd($absensiDetail);
+
+        $absensis = Absensi::select(
+            'absensis.id',
+            'absensis.user_id',
+            'absensis.ukm_id',
+            'absensis.keterangan',
+            'absensis.image',
+            'absensis.kehadiran_pelatih',
+            'absensis.waktu_mulai',
+            'absensis.waktu_selesai',
+            DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'H' THEN 1 END) AS count_H"),
+            DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'I' THEN 1 END) AS count_I"),
+            DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'A' THEN 1 END) AS count_A")
+        )
+            ->join('absensi_details', 'absensis.id', '=', 'absensi_details.absensi_id')
+            ->groupBy(
+                'absensis.id',
+                'absensis.user_id',
+                'absensis.ukm_id',
+                'absensis.keterangan',
+                'absensis.image',
+                'absensis.kehadiran_pelatih',
+                'absensis.waktu_mulai',
+                'absensis.waktu_selesai'
+            )
+            ->get();
+        // dd($datas);
+
         $anggota = Anggota::where('ukm_id', $ukm->id)->get();
+        // return view('ketuaUKM.absensi.show', compact('absensis', 'ukm', 'anggota'));
         return view('ketuaUKM.absensi.show', compact('absensis', 'ukm', 'anggota'));
     }
 

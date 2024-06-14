@@ -14,7 +14,7 @@
             </div>
 
             <div class="table-responsive mt-3">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
                             <th scope="col">UKM</th>
@@ -43,60 +43,10 @@
                         @endforelse
                     </tbody>
                 </table>
-                {{ $absensis->links() }}
+                {{-- {{ $absensis->links() }} --}}
             </div>
 
-            {{-- <div class="card">
-                <div class="card-body d-flex justify-content-between align-items-center mb-0">
-                    <div class="dataTables_info ml-2">Showing</div>
-                    <div class="paginate">
-                        <button onclick="previousPage()">Previous Page</button>
-                        <span id="pageNumber">1</span>
-                        <button onclick="nextPage()">Next Page</button>
-                    </div>
-                </div>
-            </div> --}}
 
-            <script>
-                var table = document.querySelector('tbody');
-                var pageNumber = 1;
-                var rowsPerPage = 5;
-                var rows = table.querySelectorAll('tr');
-                let table = new DataTable('dataTable');
-
-                function changeRowsPerPage() {
-                    rowsPerPage = document.getElementById('rowsPerPage').value;
-                    showCurrentPage();
-                }
-
-                function showCurrentPage() {
-                    var startIndex = (pageNumber - 1) * rowsPerPage;
-                    var endIndex = startIndex + parseInt(rowsPerPage);
-
-                    rows.forEach((row, index) => {
-                        row.style.display = index >= startIndex && index < endIndex ? 'table-row' : 'none';
-                    });
-
-                    document.getElementById('pageNumber').innerText = pageNumber;
-                }
-
-                function previousPage() {
-                    if (pageNumber > 1) {
-                        pageNumber--;
-                        showCurrentPage();
-                    }
-                }
-
-                function nextPage() {
-                    var maxPage = Math.ceil(rows.length / rowsPerPage);
-                    if (pageNumber < maxPage) {
-                        pageNumber++;
-                        showCurrentPage();
-                    }
-                }
-
-                showCurrentPage();
-            </script>
         </div>
     </div>
 @endsection

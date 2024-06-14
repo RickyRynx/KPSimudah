@@ -16,7 +16,7 @@ class UKMAdminSimudahController extends Controller
      */
     public function index()
     {
-        $ukms = Ukm::orderBy('id', 'asc')->paginate(5);
+        $ukms = Ukm::orderBy('id', 'asc')->paginate();
         $ukms = Ukm::all(); // Mengambil semua data UKM dari database
         return view('adminSimudah.ukm.index', compact('ukms'));
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 
 class PengumumanAdminSimudahController extends Controller
@@ -14,7 +15,8 @@ class PengumumanAdminSimudahController extends Controller
      */
     public function index()
     {
-        return view('adminSimudah.pengumuman.index');
+        $pengumumen = Pengumuman::all();
+        return view('adminSimudah.pengumuman.index', compact('pengumumen'));
     }
 
     /**
