@@ -55,10 +55,7 @@
                                 <button type="submit" class="btn btn-success btn-primary shadow-sm bg-green mb-2"
                                     style="background-color: green;">Tambah Jadwal</button>
 
-                                <a href="/jadwalAdminSimudah/create" class="btn btn-auto  btn-primary shadow-sm">
-                                    <span class="icon text-black-50">
-                                        <i class="fas fa-plus-square"></i>
-                                    </span>
+                                <a href="{{ route('jadwalAdminSimudah.index') }}" class="btn btn-auto  btn-primary shadow-sm">
                                     <span class="text">Batal</span>
                                 </a>
                             </div>

@@ -1,4 +1,4 @@
-@extends('layout.masterLaporanMahasiswaPembina')
+@extends('layout.masterLaporanInventarisPembina')
 
 @section('content')
     <div class="container">
@@ -13,7 +13,7 @@
 
                     <div class="card-body py-3">
                         <div class="table-responsive mt-3">
-                            <table class="table table-bordered" width="100%" cellspacing="0">
+                            <table class="table table-bordered" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th scope="col">Nama</th>

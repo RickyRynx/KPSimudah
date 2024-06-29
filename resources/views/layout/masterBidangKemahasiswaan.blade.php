@@ -54,6 +54,34 @@
                         <span>Dashboard</span></a>
                 </li>
 
+                <li class="nav-item active">
+                    <a class="nav-link" href="/absensiUKM">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Absensi UKM</span>
+                    </a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="/absensiMahasiswa">
+                        <i class="fas fa-user-friends"></i>
+                        <span>Absensi Mahasiswa</span>
+                    </a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="/laporanKegiatanKemahasiswaan">
+                        <i class="fas fa-user-friends"></i>
+                        <span>Laporan Kegiatan</span>
+                    </a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="/laporanMahasiswaBidangMahasiswa">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Laporan Mahasiswa</span>
+                    </a>
+                </li>
+
             </ul>
             <!-- End of Sidebar -->
 

@@ -84,8 +84,7 @@ class PengumumanController extends Controller
     public function show($id)
     {
         $ukm = Ukm::findOrFail($id);
-        $pengumumen = $ukm->pengumumen ?? collect(); // Gunakan ?? untuk mengatasi ketika $ukm->anggotas bernilai null
-        $pengumumen = Pengumuman::orderBy('id', 'asc')->get();
+        $pengumumen = Pengumuman::where('ukm_id', $ukm->id)->orderBy('id', 'asc')->get();
         return view('ketuaUKM.pengumuman.show', compact('pengumumen', 'ukm'));
     }
 
@@ -97,7 +96,8 @@ class PengumumanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pengumuman = Pengumuman::findOrFail($id);
+        return view('ketuaUKM.pengumuman.edit', compact('pengumuman'));
     }
 
     /**
@@ -109,7 +109,19 @@ class PengumumanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validateData = $request->validate([
+            'judul' => 'required',
+            'isi_pengumuman' => 'required',
+            'waktu_upload' => 'required',
+        ]);
+    
+        $pengumuman = Pengumuman::findOrFail($id);
+        $pengumuman->judul = $validateData['judul'];
+        $pengumuman->isi_pengumuman = $validateData['isi_pengumuman'];
+        $pengumuman->waktu_upload = $validateData['waktu_upload'];
+        $pengumuman->save();
+    
+        return redirect()->route('pengumuman.show', ['id' => $pengumuman->ukm_id])->with('success', 'Pengumuman berhasil diperbarui');
     }
 
     /**
@@ -120,6 +132,10 @@ class PengumumanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pengumuman = Pengumuman::findOrFail($id);
+        $ukm_id = $pengumuman->ukm_id;
+        $pengumuman->delete();
+
+        return redirect()->route('ketuaUKM.pengumuman.show', ['id' => $ukm_id])->with('success', 'Pengumuman berhasil dihapus');
     }
 }

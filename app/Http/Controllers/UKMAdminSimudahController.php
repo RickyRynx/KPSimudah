@@ -80,7 +80,8 @@ class UKMAdminSimudahController extends Controller
     public function edit($id)
     {
         $ukm = Ukm::findOrFail($id); // Cari UKM berdasarkan ID
-        return view('adminSimudah.ukm.edit', compact('ukm'));
+        $users = User::all(); // Mendapatkan semua pengguna untuk dropdown
+        return view('adminSimudah.ukm.edit', compact('ukm', 'users'));
     }
 
     /**

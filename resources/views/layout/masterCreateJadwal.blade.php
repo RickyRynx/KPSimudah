@@ -56,21 +56,21 @@
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/ukm">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fas fa-user-friends"></i>
                         <span>UKM/HMJ</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/jadwalAdminSimudah">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fas fa-calendar"></i>
                         <span>Jadwal</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/pengumumanAdminSimudah">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fas fa-bullhorn"></i>
                         <span>Pengumuman</span>
                     </a>
                 </li>

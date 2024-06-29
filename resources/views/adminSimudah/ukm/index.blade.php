@@ -28,6 +28,7 @@
                                 <th scope="col">Nama Pelatih</th>
                                 <th scope="col">Nama Ketua</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="ukms">
@@ -39,6 +40,9 @@
                                     <td>{{ $ukm->pelatih ? $ukm->pelatih->name : '-' }}</td>
                                     <td>{{ $ukm->ketuaMahasiswa ? $ukm->ketuaMahasiswa->name : '-' }}</td>
                                     <td>{{ $ukm->status_user }}</td>
+                                    <td>
+                                            <a href="{{ route('ukm.edit', $ukm->id) }}" class="btn btn-primary">Edit</a>
+                                            </td>
                                 </tr>
                             @empty
                                 <div class="alert alert-danger">

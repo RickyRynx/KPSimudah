@@ -24,7 +24,7 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 $user = Auth::user();
 
-                if ($user->isAdmin()) {
+                if ($user->isAdminSimudah()) {
                     return redirect()->route('adminSimudah.dashboard.index');
                 } elseif ($user->isPembina()) {
                     return redirect()->route('pembina.dashboard.index');

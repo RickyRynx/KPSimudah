@@ -1,32 +1,33 @@
 @extends('layout.masterAdminKeuangan')
-@section('title', 'Dashboard')
 @section('content')
 
     <div class="container">
         <div class="row">
+            {{-- <div class="mb-2"> --}}
+                <h1 id="welcome-message"></h1>
 
-            <h1 id="welcome-message"></h1>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var welcomeMessage = document.getElementById('welcome-message');
+                        var hour = new Date().getHours();
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    var welcomeMessage = document.getElementById('welcome-message');
-                    var hour = new Date().getHours();
+                        var greeting = '';
 
-                    var greeting = '';
+                        if (hour >= 5 && hour < 12) {
+                            greeting = 'Selamat Pagi';
+                        } else if (hour >= 12 && hour < 17) {
+                            greeting = 'Selamat Siang';
+                        } else if (hour >= 17 && hour < 20) {
+                            greeting = 'Selamat Sore';
+                        } else {
+                            greeting = 'Selamat Malam';
+                        }
 
-                    if (hour >= 5 && hour < 12) {
-                        greeting = 'Selamat Pagi';
-                    } else if (hour >= 12 && hour < 17) {
-                        greeting = 'Selamat Siang';
-                    } else if (hour >= 17 && hour < 20) {
-                        greeting = 'Selamat Sore';
-                    } else {
-                        greeting = 'Selamat Malam';
-                    }
+                        welcomeMessage.textContent = greeting + ', {{ Auth::user()->name }}';
+                    });
+                </script>
+            {{-- </div> --}}
 
-                    welcomeMessage.textContent = greeting + ', {{ Auth::user()->name }}';
-                });
-            </script>
 
             <!-- Area Chart -->
             <div class="col-xl-8 col-lg-7 mx-auto">

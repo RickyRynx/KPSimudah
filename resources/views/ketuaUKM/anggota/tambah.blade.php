@@ -52,9 +52,18 @@
                                     <input type="email" class="form-control" name="email" required>
                                 </div>
 
-                                <div class="mb-1">
+                                {{-- <div class="mb-1">
                                     <label for="jabatan" class="form-label">Jabatan</label>
                                     <input type="text" class="form-control" name="jabatan" required>
+                                </div> --}}
+
+                                <div class="mb-3">
+                                    <label for="jabatan" class="form-label">Jabatan</label> <br>
+                                    <select name="jabatan" class="form-control" required>
+                                        <option value="Ketua" selected>Ketua UKM</option>
+                                        <option value="Sekretaris">Sekretaris</option>
+                                        <option value="Anggota">Anggota</option>
+                                    </select>
                                 </div>
 
                                 {{-- <label for="ukm_id" style="margin-bottom: 5px;">Nama UKM/HMJ</label>
@@ -81,9 +90,6 @@
 
                                 <a href="{{ route('anggota.show', ['id' => $ukm->id]) }}"
                                     class="btn btn-auto btn-primary shadow-sm">
-                                    <span class="icon text-black-50">
-                                        <i class="fas fa-plus-square"></i>
-                                    </span>
                                     <span class="text">Batal</span>
                                 </a>
 

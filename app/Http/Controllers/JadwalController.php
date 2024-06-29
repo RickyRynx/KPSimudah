@@ -90,10 +90,10 @@ class JadwalController extends Controller
      */
     public function show($id)
     {
-        $ukm = Ukm::findOrFail($id);
+        $ukms = Ukm::findOrFail($id);
         $jadwals = $ukm->jadwals ?? collect();
         $jadwals = Jadwal::orderBy('id', 'asc')->get();
-        return view('ketuaUKM.jadwal.show', compact('jadwals', 'ukm'));
+        return view('ketuaUKM.jadwal.show', compact('jadwals', 'ukms'));
     }
 
     /**
@@ -104,7 +104,7 @@ class JadwalController extends Controller
      */
     public function edit($id)
     {
-        $jadwals = Jadwal::findOrFail($id);
+        
     }
 
     /**
@@ -116,7 +116,7 @@ class JadwalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

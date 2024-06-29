@@ -23,6 +23,8 @@
     <!-- Custom styles for this page -->
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
 </head>
 
 <body id="page-top">
@@ -54,44 +56,44 @@
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/jadwal">
-                        <i class="fas fa-fw fa-cog"></i>
+                    <a class="nav-link" href="{{ url('jadwal') }}">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
                         <span>Jadwal</span>
                     </a>
                 </li>
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="/anggota">
-                        <i class="fas fa-fw fa-cog"></i>
+                    <a class="nav-link" href="{{ url('anggota') }}">
+                        <i class="far fa-address-book"></i>
                         <span>Anggota</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/kegiatan">
-                        <i class="fas fa-fw fa-cog"></i>
+                    <a class="nav-link" href="{{ url('kegiatan') }}">
+                        <i class="fa fa-list" aria-hidden="true"></i>
                         <span>Kegiatan/Lomba</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/absensi">
-                        <i class="fas fa-fw fa-cog"></i>
+                    <a class="nav-link" href="{{ url('absensi') }}">
+                        <i class="fas fa-chalkboard-teacher"></i>
                         <span>Absensi</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/pengumuman">
-                        <i class="fas fa-fw fa-cog"></i>
+                    <a class="nav-link" href="{{ url('pengumuman') }}">
+                        <i class="fas fa-bullhorn"></i>
                         <span>Pengumuman</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/inventaris">
-                        <i class="fas fa-fw fa-cog"></i>
+                    <a class="nav-link" href="{{ url('inventaris') }}">
+                        <i class="fas fa-archive"></i>
                         <span>Inventaris</span>
                     </a>
                 </li>
@@ -193,6 +195,8 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 </body>
 

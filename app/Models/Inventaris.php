@@ -10,6 +10,8 @@ class Inventaris extends Model
     protected $fillable = [
         'nama_barang',
         'jumlah',
+        'jumlah_rusak',
+        'jumlah_bagus',
         'keterangan',
         'ukm_id'
     ];

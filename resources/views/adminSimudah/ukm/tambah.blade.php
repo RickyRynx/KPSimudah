@@ -16,7 +16,6 @@
                             <input type="text" class="form-control" name="nama_ukm" required
                                 style="margin-bottom: 10px;">
 
-
                             <!-- Nama Pembina, Pelatih, Ketua Mahasiswa fields ... -->
                             <label for="pembina_id" style="margin-bottom: 5px;">Nama Pembina</label>
                             <select name="pembina_id" class="form-control" style="margin-bottom: 10px;">
@@ -51,16 +50,10 @@
 
                             <button type="submit" class="btn btn-auto btn-primary shadow-sm bg-green"
                                 style="background-color: green;">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-plus-square"></i>
-                                </span>
                                 <span class="text">Simpan Data</span>
                             </button>
 
                             <a href="{{ route('ukm.index') }}" class="btn btn-auto btn-primary shadow-sm">
-                                <span class="icon text-black-50">
-                                    <i class="fas fa-plus-square"></i>
-                                </span>
                                 <span class="text">Batal</span>
                             </a>
                         </form>

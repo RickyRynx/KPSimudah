@@ -44,11 +44,14 @@ class AbsensiController extends Controller
 
         $anggota = Anggota::where('ukm_id', $ukm->id)->get();
 
+        $pelatih = User::findOrFail($ukm->pelatih_id);
+        // dd($pelatih);
+
         // $hadir = $ukm->absensis()->where('status_absensi', 'H')->count();
         // $izin = $ukm->absensis()->where('status_absensi', 'I')->count();
         // $alpa = $ukm->absensis()->where('status_absensi', 'A')->count();
 
-        return view('ketuaUKM.absensi.tambah', compact('ukm', 'anggota'));
+        return view('ketuaUKM.absensi.tambah', compact('ukm', 'anggota', 'pelatih'));
     }
 
 
@@ -63,7 +66,7 @@ class AbsensiController extends Controller
         $validateData = $request->validate([
             'keterangan' => 'required',
             'image' => 'required|mimes:jpeg,png,jpg,gif',
-            'kehadiran_pelatih' => 'required',
+            'kehadiran_pelatih' => 'required|in:Hadir,Tidak Hadir',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
         ]);
@@ -140,45 +143,47 @@ class AbsensiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+
+    public function show($id, Request $request)
     {
-
         $ukm = Ukm::findOrFail($id);
-        // $absensis = $ukm->absensis()->orderBy('id', 'asc')->get();
-        // dd("print");
-        // dd($absensiDetail);
-
-        $absensis = Absensi::select(
-            'absensis.id',
-            'absensis.user_id',
-            'absensis.ukm_id',
-            'absensis.keterangan',
-            'absensis.image',
-            'absensis.kehadiran_pelatih',
-            'absensis.waktu_mulai',
-            'absensis.waktu_selesai',
+    
+        $query = $ukm->absensis()->orderBy('id', 'asc');
+    
+        // Filter tanggal jika tanggal_awal dan tanggal_akhir diset
+        if ($request->has('tanggal_awal') && $request->has('tanggal_akhir')) {
+            $tanggal_awal = $request->input('tanggal_awal');
+            $tanggal_akhir = $request->input('tanggal_akhir');
+    
+            $query->whereBetween('created_at', [$tanggal_awal . ' 00:00:00', $tanggal_akhir . ' 23:59:59']);
+        }
+    
+        $absensis = $query->get();
+    
+        // Menghitung jumlah kehadiran, izin, dan alpa
+        $countData = AbsensiDetail::select(
+            'absensi_details.absensi_id',
             DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'H' THEN 1 END) AS count_H"),
             DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'I' THEN 1 END) AS count_I"),
             DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'A' THEN 1 END) AS count_A")
         )
-            ->join('absensi_details', 'absensis.id', '=', 'absensi_details.absensi_id')
-            ->groupBy(
-                'absensis.id',
-                'absensis.user_id',
-                'absensis.ukm_id',
-                'absensis.keterangan',
-                'absensis.image',
-                'absensis.kehadiran_pelatih',
-                'absensis.waktu_mulai',
-                'absensis.waktu_selesai'
-            )
+            ->join('absensis', 'absensi_details.absensi_id', '=', 'absensis.id')
+            ->groupBy('absensi_details.absensi_id')
             ->get();
-        // dd($datas);
-
-        $anggota = Anggota::where('ukm_id', $ukm->id)->get();
-        // return view('ketuaUKM.absensi.show', compact('absensis', 'ukm', 'anggota'));
-        return view('ketuaUKM.absensi.show', compact('absensis', 'ukm', 'anggota'));
+    
+        // Join data jumlah kehadiran, izin, dan alpa ke dalam data absensi
+        $absensis = $absensis->map(function ($absensi) use ($countData) {
+            $counts = $countData->firstWhere('absensi_id', $absensi->id);
+            $absensi->count_H = $counts ? $counts->count_H : 0;
+            $absensi->count_I = $counts ? $counts->count_I : 0;
+            $absensi->count_A = $counts ? $counts->count_A : 0;
+            return $absensi;
+        });
+    
+        // Tampilkan view dengan data yang telah diproses
+        return view('ketuaUKM.absensi.show', compact('absensis', 'ukm'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -188,7 +193,15 @@ class AbsensiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $absensi = Absensi::findOrFail($id);
+        $anggota = Anggota::where('ukm_id', $absensi->ukm_id)->get();
+        $absensiDetails = AbsensiDetail::where('absensi_id', $id)->get()->keyBy('anggota_id');
+
+        foreach ($anggota as $member) {
+            $member->status_absensi = $absensiDetails[$member->id]->status_absensi ?? null;
+        }
+
+        return view('ketuaUKM.absensi.edit', compact('absensi', 'anggota'));
     }
 
     /**
@@ -200,7 +213,40 @@ class AbsensiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validateData = $request->validate([
+            'keterangan' => 'required',
+            'image' => 'mimes:jpeg,png,jpg,gif',
+            'kehadiran_pelatih' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
+        ]);
+    
+        $absensi = Absensi::findOrFail($id);
+    
+        if ($request->hasFile('image')) {
+            $ext = $request->image->getClientOriginalExtension();
+            $rename_file = 'file-' . time() . "." . $ext;
+            $request->image->storeAs('public/foto_absensi/', $rename_file);
+            $validateData['image'] = $rename_file;
+    
+            // Hapus file lama
+            if ($absensi->image) {
+                Storage::delete('public/foto_absensi/' . $absensi->image);
+            }
+        }
+    
+        $absensi->update($validateData);
+    
+        $statusAbsensi = $request->input('status_absensi');
+    
+        foreach ($statusAbsensi as $anggotaId => $status) {
+            AbsensiDetail::updateOrCreate(
+                ['absensi_id' => $id, 'anggota_id' => $anggotaId],
+                ['status_absensi' => $status]
+            );
+        }
+    
+        return redirect()->route('ketuaUKM.absensi.show', $absensi->ukm_id)->with('success', 'Data absensi berhasil diupdate');
     }
 
     /**

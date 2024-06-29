@@ -78,7 +78,9 @@ class JadwalAdminSimudahController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jadwal = Jadwal::findOrFail($id); // Cari Jadwal berdasarkan ID
+        $ukms = Ukm::all(); // Mendapatkan semua UKM untuk dropdown
+        return view('adminSimudah.jadwal.edit', compact('jadwal', 'ukms'));
     }
 
     /**
@@ -90,7 +92,21 @@ class JadwalAdminSimudahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'ukm_id' => 'required|exists:ukms,id',
+            'waktu_mulai' => 'required|date_format:H:i',
+            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'hari' => 'required|array',
+            'tempat' => 'required|string|max:255',
+        ]);
+    
+        // Convert array to JSON for database storage
+        $validatedData['hari'] = implode(',', $validatedData['hari']);
+    
+        $jadwal = Jadwal::findOrFail($id);
+        $jadwal->update($validatedData);
+    
+        return redirect()->route('adminSimudah.jadwal.index')->with('success', 'Jadwal berhasil diperbarui.');
     }
 
     /**

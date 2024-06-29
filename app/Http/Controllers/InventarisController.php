@@ -45,7 +45,9 @@ class InventarisController extends Controller
     {
         $validateData = $request->validate([
             'nama_barang' => 'required',
-            'jumlah' => 'required',
+            'jumlah' => 'required|numeric',
+            'jumlah_rusak' => 'required|numeric',
+            'jumlah_bagus' => 'required|numeric',
             'keterangan' => 'required',
             // 'ukm_id' => 'required|exists:ukms,id',
         ]);
@@ -56,6 +58,8 @@ class InventarisController extends Controller
         $inventaris = new Inventaris([
             'nama_barang' => $validateData['nama_barang'],
             'jumlah' => $validateData['jumlah'],
+            'jumlah_rusak' => $validateData['jumlah_rusak'],
+            'jumlah_bagus' => $validateData['jumlah_bagus'],
             'keterangan' => $validateData['keterangan'],
             'ketuaMahasiswa_id' => $user->id, // Menetapkan ID user sebagai ketua
             'ukm_id' => $ukm->id, // Menetapkan ID UKM
@@ -97,7 +101,8 @@ class InventarisController extends Controller
      */
     public function edit($id)
     {
-        //
+        $inventaris = Inventaris::findOrFail($id);
+        return view('ketuaUKM.inventaris.edit', compact('inventaris'));
     }
 
     /**
@@ -109,7 +114,23 @@ class InventarisController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $validateData = $request->validate([
+            'nama_barang' => 'required',
+            'jumlah' => 'required|numeric',
+            'jumlah_rusak' => 'required|numeric',
+            'jumlah_bagus' => 'required|numeric',
+            'keterangan' => 'required',
+        ]);
+    
+        $inventaris = Inventaris::findOrFail($id);
+        $inventaris->nama_barang = $validateData['nama_barang'];
+        $inventaris->jumlah = $validateData['jumlah'];
+        $inventaris->jumlah_rusak = $validateData['jumlah_rusak'];
+        $inventaris->jumlah_bagus = $validateData['jumlah_bagus'];
+        $inventaris->keterangan = $validateData['keterangan'];
+        $inventaris->save();
+    
+        return redirect()->route('inventaris.show', ['id' => $inventaris->ukm_id])->with('success', 'Inventaris berhasil diupdate');
     }
 
     /**
@@ -121,5 +142,9 @@ class InventarisController extends Controller
     public function destroy($id)
     {
         $inventaris = Inventaris::findOrFail($id);
+        $ukm_id = $inventaris->ukm_id;
+        $inventaris->delete();
+
+        return redirect()->route('ketuaUKM.inventaris.show', ['id' => $ukm_id])->with('success', 'Inventaris berhasil dihapus');
     }
 }

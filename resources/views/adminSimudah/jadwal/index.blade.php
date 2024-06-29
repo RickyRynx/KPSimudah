@@ -43,7 +43,7 @@
                                         <td>{{ $jadwal->hari }}</td>
                                         <td>{{ $jadwal->tempat }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-primary">Edit</a>
+                                            <a href="{{ route('jadwalAdminSimudah.edit', $jadwal->id) }}" class="btn btn-primary">Edit</a>
                                         </td>
                                     </tr>
                                 @empty

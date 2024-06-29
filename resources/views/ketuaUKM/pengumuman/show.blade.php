@@ -30,17 +30,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($pengumumen as $pengumuman)
+                                @forelse ($pengumumen as $index => $pengumuman)
                                     @if ($pengumuman->ukm_id == $ukm->id)
                                         <tr>
-                                            <td>{{ $pengumuman->id }}</td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>{{ $pengumuman->judul }}</td>
                                             <td>{{ $pengumuman->isi_pengumuman }}</td>
                                             <td>{{ $pengumuman->ketuaMahasiswa->name }}</td>
                                             <td>{{ $pengumuman->waktu_upload }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-primary mb-2">Edit</a>
-                                                <a href="#" class="btn btn-danger mb-2">Delete</a>
+                                                <a href="{{ route('pengumuman.edit', $pengumuman->id) }}" class="btn btn-primary mb-2">Edit</a>
+                                                <form action="{{ route('pengumuman.destroy', $pengumuman->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengumuman ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger mb-2">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endif

@@ -12,17 +12,6 @@
                     <!-- Card Body -->
 
                     <div class="card-body">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-0">
-                            <a></a>
-                            <form
-                                class="d-none d-sm-inline-block form-inline mr-8 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
-                                    <label for="search" class="form-label">Search:</label>
-                                    <input type="text" class="form-control ml-2" aria-label="search"
-                                        aria-describedby="basic-addon2">
-                                </div>
-                            </form>
-                        </div>
 
                         <form action="{{ route('absensi.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -37,10 +26,13 @@
                                     <input type="file" class="form-control" name="image" accept=".jpg" required>
                                 </div>
 
-                                <div class="mb-1">
-                                    <label for="kehadiran_pelatih" class="form-label">Kehadiran Pelatih</label>
-                                    <input type="text" class="form-control" name="kehadiran_pelatih" required>
+                            <div class="form-group">
+                                    <label for="kehadiran_pelatih" class="form-label">Kehadiran Pelatih ({{ $pelatih->name }})</label>
+                                <div>
+                                    <label><input type="radio" name="kehadiran_pelatih" value="Hadir" required> Hadir</label>
+                                    <label><input type="radio" name="kehadiran_pelatih" value="Tidak Hadir" required> Tidak Hadir</label>
                                 </div>
+                            </div>
 
                                 <div class="mb-1">
                                     <label for="waktu_mulai" class="form-label">Jam Mulai</label>
@@ -53,6 +45,9 @@
                                         required>
                                 </div>
 
+                                <div class="mb-3 ml-auto">
+                                    <button type="button" id="markAllHadir" class="btn btn-success ml-auto">Checklist Hadir Semua</button>
+                                </div>
 
                                 <table border="1" cellpadding="8" cellspacing="0" width="100%">
                                     <thead>
@@ -95,11 +90,18 @@
 
                                 <a href="{{ route('absensi.show', ['id' => $ukm->id]) }}"
                                     class="btn btn-auto  btn-primary shadow-sm">
-                                    <span class="icon text-black-50">
-                                        <i class="fas fa-plus-square"></i>
-                                    </span>
                                     <span class="text">Batal</span>
                                 </a>
+
+                                <script>
+                                    document.getElementById('markAllHadir').addEventListener('click', function() {
+                                    let radioButtons = document.querySelectorAll('input[type="radio"][value="H"]');
+                                    radioButtons.forEach(button => {
+                                    button.checked = true;
+                                        });
+                                    });
+                                </script>
+
                                 <script>
                                     function validateForm() {
                                         var npm = document.getElementById('npm').value;

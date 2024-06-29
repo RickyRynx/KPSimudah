@@ -24,6 +24,8 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Nama Barang</th>
                                     <th scope="col">Jumlah</th>
+                                    <th scope="col">Jumlah Rusak</th>
+                                    <th scope="col">Jumlah Bagus</th>
                                     <th scope="col">Keterangan</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
@@ -35,10 +37,16 @@
                                             <td>{{ $inventaris->id }}</td>
                                             <td>{{ $inventaris->nama_barang }}</td>
                                             <td>{{ $inventaris->jumlah }}</td>
+                                            <td>{{ $inventaris->jumlah_rusak }}</td>
+                                            <td>{{ $inventaris->jumlah_bagus }}</td>
                                             <td>{{ $inventaris->keterangan }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-primary mb-2">Edit</a>
-                                                <a href="#" class="btn btn-danger mb-2">Delete</a>
+                                                <a href="{{ route('inventaris.edit', $inventaris->id) }}" class="btn btn-primary mb-2">Edit</a>
+                                                <form action="{{ route('inventaris.destroy', $inventaris->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus inventaris ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger mb-2">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endif

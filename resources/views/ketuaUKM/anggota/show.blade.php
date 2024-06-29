@@ -15,12 +15,12 @@
                         <span class="text">Tambah Anggota</span>
                     </a>
 
-                    <a href="#" class="btn btn-auto  btn-primary shadow-sm">
+                    {{-- <a href="#" class="btn btn-auto  btn-primary shadow-sm">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus-square"></i>
                         </span>
                         <span class="text">Lihat Semua Anggota</span>
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>
@@ -55,7 +55,7 @@
                                             <td>{{ $anggota->jabatan }}</td>
                                             <td>{{ $anggota->status_user }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-primary">Edit</a>
+                                            <a href="{{ route('anggota.edit', $anggota->id) }}" class="btn btn-primary">Edit</a>
                                             </td>
                                         </tr>
                                     @endif

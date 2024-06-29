@@ -47,7 +47,11 @@ class AuthenticatedSessionController extends Controller
             return redirect(RouteServiceProvider::HOME_ADMIN_KEUANGAN);
         } elseif ($user->isBidangKemahasiswaan()) {
             return redirect(RouteServiceProvider::HOME_BIDANG_KEMAHASISWAAN);
-        }
+        } 
+
+        return $response->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+                        ->header('Pragma', 'no-cache')
+                        ->header('Expires', '0');
     }
 
     /**
@@ -60,10 +64,12 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+        $request->session()->flush();
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/login')->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+                                 ->header('Pragma', 'no-cache')
+                                 ->header('Expires', '0');
     }
 }

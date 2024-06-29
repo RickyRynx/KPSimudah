@@ -1,7 +1,9 @@
 @extends('layout.masterKegiatanKetuaUKM')
 @section('content')
     <div class="container">
-
+        @if (session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
         <div class="card shadow m-4">
             <div class="card-header py-3">
                 <!-- Page Heading -->
@@ -28,6 +30,7 @@
                                     <th scope="col">File Usulan Lomba</th>
                                     <th scope="col">Skala Lomba</th>
                                     <th scope="col">Laporan</th>
+                                    <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,6 +54,9 @@
                                                     target="_blank">
                                                     {{ basename($kegiatan->laporan_lomba) }}
                                                 </a>
+                                            </td>
+                                            <td>
+                                            <a href="{{ route('kegiatan.edit', $kegiatan->id) }}" class="btn btn-primary">Edit</a>
                                             </td>
                                         </tr>
                                     @endif

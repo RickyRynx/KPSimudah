@@ -57,22 +57,22 @@
 
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/absensiUKM">
-                        <i class="fas fa-fw fa-cog"></i>
+                    <a class="nav-link" href="/absensiUKMKeuangan">
+                        <i class="fas fa-chalkboard-teacher"></i>
                         <span>Absensi UKM</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/absensiMahasiswa">
-                        <i class="fas fa-fw fa-cog"></i>
+                    <a class="nav-link" href="/absensiMahasiswaKeuangan">
+                        <i class="fas fa-user-friends"></i>
                         <span>Absensi Mahasiswa</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/laporanPelatih">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fas fa-file-pdf"></i>
                         <span>Laporan Pelatih</span>
                     </a>
                 </li>

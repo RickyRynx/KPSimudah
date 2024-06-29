@@ -23,7 +23,17 @@
 
                                 <div class="mb-1">
                                     <label for="jumlah" class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control" name="jumlah" required>
+                                    <input type="number" class="form-control" name="jumlah" required>
+                                </div>
+
+                                <div class="mb-1">
+                                    <label for="jumlah_rusak" class="form-label">Jumlah Rusak</label>
+                                    <input type="number" class="form-control" name="jumlah_rusak">
+                                </div>
+
+                                <div class="mb-1">
+                                    <label for="jumlah_bagus" class="form-label">Jumlah</label>
+                                    <input type="number" class="form-control" name="jumlah_bagus">
                                 </div>
 
                                 <div class="mb-3">
