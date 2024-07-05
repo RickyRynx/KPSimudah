@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ukm;
+use App\Models\Absensi;
+use App\Models\AbsensiDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AbsensiUKMBidangKemahasiswaanController extends Controller
 {
@@ -16,6 +19,7 @@ class AbsensiUKMBidangKemahasiswaanController extends Controller
     public function index()
     {
         $ukm = Ukm::all();
+        // $absensis = $ukm->absensis()->orderBy('id', 'asc')->paginate(5);
         return view('wakilRektorIII.absensiUKM.tampilan', compact('ukm'));
     }
 
@@ -46,11 +50,44 @@ class AbsensiUKMBidangKemahasiswaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $ukm = Ukm::findOrFail($id);
+        $query = $ukm->absensis()->orderBy('id', 'asc');
+        
+        // Inisialisasi variabel $absensis sebagai collection kosong
+        $absensis = collect();
+
+        // Filter tanggal jika tanggal_awal dan tanggal_akhir diset
+        if ($request->has('tanggal_awal') && $request->has('tanggal_akhir')) {
+            $tanggal_awal = $request->input('tanggal_awal');
+            $tanggal_akhir = $request->input('tanggal_akhir');
+
+            $query->whereBetween('created_at', [$tanggal_awal . ' 00:00:00', $tanggal_akhir . ' 23:59:59']);
+            $absensis = $query->get();
+
+            // Menghitung jumlah kehadiran, izin, dan alpa
+            $countData = AbsensiDetail::select(
+                'absensi_details.absensi_id',
+                DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'H' THEN 1 END) AS count_H"),
+                DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'I' THEN 1 END) AS count_I"),
+                DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'A' THEN 1 END) AS count_A")
+            )
+            ->join('absensis', 'absensi_details.absensi_id', '=', 'absensis.id')
+            ->groupBy('absensi_details.absensi_id')
+            ->get();
+
+            // Join data jumlah kehadiran, izin, dan alpa ke dalam data absensi
+            $absensis = $absensis->map(function ($absensi) use ($countData) {
+                $counts = $countData->firstWhere('absensi_id', $absensi->id);
+                $absensi->count_H = $counts ? $counts->count_H : 0;
+                $absensi->count_I = $counts ? $counts->count_I : 0;
+                $absensi->count_A = $counts ? $counts->count_A : 0;
+                return $absensi;
+            });
+        }
         // Logika untuk menampilkan detail UKM atau absensi berdasarkan ID UKM
-        return view('wakilRektorIII.absensiUKM.show', compact('ukm'));
+        return view('wakilRektorIII.absensiUKM.show', compact('ukm', 'absensis'));
     }
 
     /**

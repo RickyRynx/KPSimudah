@@ -40,7 +40,7 @@
                         </div>
                 </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Filter</button>
+                            <button type="submit" class="btn btn-primary">Cari</button>
                         </div>
             </form>
 

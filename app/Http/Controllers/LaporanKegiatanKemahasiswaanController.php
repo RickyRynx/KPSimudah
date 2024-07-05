@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\UKM;
+use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
 class LaporanKegiatanKemahasiswaanController extends Controller
@@ -50,8 +51,9 @@ class LaporanKegiatanKemahasiswaanController extends Controller
     public function show($id)
     {
         $ukm = Ukm::findOrFail($id);
-        // Logika untuk menampilkan detail UKM atau absensi berdasarkan ID UKM
-        return view('wakilRektorIII.laporanKegiatan.show', compact('ukm'));
+        $kegiatans = $ukm->kegiatans()->orderBy('id', 'asc')->get();
+        $kegiatans = $ukm->kegiatans ?? collect();
+        return view('wakilRektorIII.laporanKegiatan.show', compact('ukm', 'kegiatans'));
     }
 
     /**

@@ -1,4 +1,4 @@
-@extends('layout.masterBidangKemahasiswaan')
+@extends('layout.masterLaporanKegiatanBidangKemahasiswaan')
 @section('content')
     <div class="container">
         <h1>Daftar UKM</h1>
