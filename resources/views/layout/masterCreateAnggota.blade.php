@@ -11,6 +11,8 @@
 
     <title>SIMUDAH - Tambah Anggota</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}" />
+
     <!-- Custom fonts for this template-->
     <!-- Custom fonts for this template -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">

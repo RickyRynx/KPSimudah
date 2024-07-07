@@ -15,18 +15,15 @@ class KegiatanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-{
-    $user = Auth::user();
-    $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+    {
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
-    // Perbaikan: Menggunakan relasi pada model Ukm untuk mengambil kegiatan
-    $kegiatans = $ukm->kegiatans()->orderBy('id', 'asc')->get();
+        // Perbaikan: Menggunakan relasi pada model Ukm untuk mengambil kegiatan
+        $kegiatans = $ukm->kegiatans()->orderBy('id', 'asc')->get();
 
-    return view('ketuaUKM.kegiatan.tampilan', compact('ukm', 'kegiatans'));
-}
-
-
-
+        return view('ketuaUKM.kegiatan.tampilan', compact('ukm', 'kegiatans'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -39,7 +36,7 @@ class KegiatanController extends Controller
         $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
         $latestKegiatan = Kegiatan::orderBy('created_at', 'desc')->first();
-        $newNoUsulan = 'NU-' . str_pad(($latestKegiatan ? $latestKegiatan->id + 1 : 1), 6, '0', STR_PAD_LEFT);
+        $newNoUsulan = 'NU-' . str_pad($latestKegiatan ? $latestKegiatan->id + 1 : 1, 6, '0', STR_PAD_LEFT);
 
         return view('ketuaUKM.kegiatan.tambah', compact('ukm', 'newNoUsulan'));
     }
@@ -62,25 +59,24 @@ class KegiatanController extends Controller
             //'ukm_id' => 'required|exists:ukms,id'
         ]);
 
-
         $user = Auth::user();
         $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
         $fileUsulan = $request->file('file_usulan');
         $laporanLomba = $request->file('laporan_lomba');
 
-    // Membedakan nama file usulan dan laporan lomba
-    
+        // Membedakan nama file usulan dan laporan lomba
+
         $originalNameFileUsulan = $fileUsulan->getClientOriginalName();
         $originalNameLaporanLomba = $laporanLomba->getClientOriginalName();
 
-    // Simpan file usulan
+        // Simpan file usulan
         $fileUsulanPath = $fileUsulan->storeAs('public/file_usulan/', $originalNameFileUsulan);
 
-    // Simpan file laporan lomba
+        // Simpan file laporan lomba
         $laporanLombaPath = $laporanLomba->storeAs('public/file_laporan/', $originalNameLaporanLomba);
 
-    // Tambahkan nama file ke dalam data yang akan disimpan ke database
+        // Tambahkan nama file ke dalam data yang akan disimpan ke database
         $validateData['file_usulan'] = $originalNameFileUsulan;
         $validateData['laporan_lomba'] = $originalNameLaporanLomba;
         $user = Auth::user();
@@ -99,8 +95,10 @@ class KegiatanController extends Controller
 
         // dd($kegiatan);
         $kegiatan->save();
-        
-        return redirect()->route('kegiatan.show', ['id' => $kegiatan->ukm_id])->with('success', 'Kegiatan berhasil ditambahkan');
+
+        return redirect()
+            ->route('kegiatan.show', ['id' => $kegiatan->ukm_id])
+            ->with('success', 'Kegiatan berhasil ditambahkan');
     }
 
     /**
@@ -109,9 +107,6 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-
-
 
     public function show($id)
     {
@@ -150,26 +145,28 @@ class KegiatanController extends Controller
             'skala_lomba' => 'required|in:Regional,Nasional,Internasional',
             'laporan_lomba' => 'nullable|mimes:pdf,doc|max:4096',
         ]);
-    
+
         $kegiatan = Kegiatan::findOrFail($id);
-    
+
         if ($request->hasFile('file_usulan')) {
             $fileUsulan = $request->file('file_usulan');
             $originalNameFileUsulan = $fileUsulan->getClientOriginalName();
             $fileUsulanPath = $fileUsulan->storeAs('public/file_usulan/', $originalNameFileUsulan);
             $validateData['file_usulan'] = $originalNameFileUsulan;
         }
-    
+
         if ($request->hasFile('laporan_lomba')) {
             $laporanLomba = $request->file('laporan_lomba');
             $originalNameLaporanLomba = $laporanLomba->getClientOriginalName();
             $laporanLombaPath = $laporanLomba->storeAs('public/file_laporan/', $originalNameLaporanLomba);
             $validateData['laporan_lomba'] = $originalNameLaporanLomba;
         }
-    
+
         $kegiatan->update($validateData);
-    
-        return redirect()->route('ketuaUKM.kegiatan.show', ['id' => $kegiatan->ukm_id])->with('success', 'Kegiatan berhasil diperbarui');
+
+        return redirect()
+            ->route('ketuaUKM.kegiatan.show', ['id' => $kegiatan->ukm_id])
+            ->with('success', 'Kegiatan berhasil diperbarui');
     }
 
     /**

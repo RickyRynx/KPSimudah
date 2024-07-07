@@ -1,14 +1,37 @@
 @extends('layout.masterPelatih')
-@section('title', 'Dashboard')
 @section('content')
-
     <div class="container">
-        <!-- Content Row -->
+
+        <div>
+            <h1 id="welcome-message"></h1>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var welcomeMessage = document.getElementById('welcome-message');
+                    var hour = new Date().getHours();
+
+                    var greeting = '';
+
+                    if (hour >= 5 && hour < 12) {
+                        greeting = 'Selamat Pagi';
+                    } else if (hour >= 12 && hour < 17) {
+                        greeting = 'Selamat Siang';
+                    } else if (hour >= 17 && hour < 20) {
+                        greeting = 'Selamat Sore';
+                    } else {
+                        greeting = 'Selamat Malam';
+                    }
+
+                    welcomeMessage.textContent = greeting + ', {{ Auth::user()->name }}';
+                });
+            </script>
+        </div>
+
         <div class="row">
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <a class="list-group-item list-group-item-action" href="/anggota">
+                <a class="list-group-item list-group-item-action" href="/absensiPelatih">
                     <div class="card shadow h-100 py-0">
                         <div class="card-header py-2 align-items-top bg-dark">
                             <div class="col text-center">
@@ -33,7 +56,7 @@
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <a class="list-group-item list-group-item-action" href="/absensi">
+                <a class="list-group-item list-group-item-action" href="/kegiatanPelatih">
                     <div class="card shadow h-100 py-0">
                         <div class="card-header py-2 align-items-top bg-dark">
                             <div class="col text-center">
@@ -200,5 +223,4 @@
 
 
     </div>
-
 @endsection

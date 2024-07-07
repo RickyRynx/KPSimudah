@@ -11,6 +11,8 @@
 
     <title>Simudah - Forgot Password</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}" />
+
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
@@ -50,8 +52,8 @@
                                     <form method="POST" action="{{ route('password.email') }}">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="email" name="email" :value="old('email')" required autofocus
+                                            <input type="email" class="form-control form-control-user" id="email"
+                                                name="email" :value="old('email')" required autofocus
                                                 placeholder="Enter Email Address...">
                                         </div>
 
@@ -66,7 +68,8 @@
                                         <a class="small" href="{{ route('register') }}">Create an Account!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="{{ route('login') }}">Already have an account? Login!</a>
+                                        <a class="small" href="{{ route('login') }}">Already have an account?
+                                            Login!</a>
                                     </div>
                                 </div>
                             </div>

@@ -11,6 +11,8 @@
 
     <title>SIMUDAH - Welcome</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}" />
+
     <!-- Custom fonts for this template -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
@@ -55,28 +57,28 @@
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/jadwalPelatih">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fa fa-calendar"></i>
                         <span>Jadwal</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/kegiatanPelatih">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fa fa-list"></i>
                         <span>Kegiatan/Lomba</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/absensiPelatih">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fas fa-chalkboard-teacher"></i>
                         <span>Absensi</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/pengumumanPelatih">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fas fa-bullhorn"></i>
                         <span>Pengumuman</span>
                     </a>
                 </li>
@@ -91,7 +93,6 @@
 
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-auto">
 

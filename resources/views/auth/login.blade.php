@@ -11,6 +11,7 @@
 
     <title>Simudah - Login</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}" />
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -92,10 +93,12 @@
                                         <hr>
 
                                         <div class="text-center">
-                                            <a class="small" href="{{ route('password.request') }}">Forgot Password?</a>
+                                            <a class="small" href="{{ route('password.request') }}">Forgot
+                                                Password?</a>
                                         </div>
                                         <div class="text-center">
-                                            <a class="small" href="{{ route('register') }}">Don't Have Account?? Please Register</a>
+                                            <a class="small" href="{{ route('register') }}">Don't Have Account?? Please
+                                                Register</a>
                                         </div>
                                     </form>
                                 </div>

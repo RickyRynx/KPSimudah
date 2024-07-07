@@ -15,16 +15,14 @@ class PengumumanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-{
-    $user = Auth::user();
-    $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+    {
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
-    $pengumumen = $ukm->pengumumen()->orderBy('id', 'asc')->paginate(5);
+        $pengumumen = $ukm->pengumumen()->orderBy('id', 'asc')->paginate(5);
 
-    return view('ketuaUKM.pengumuman.tampilan', compact('ukm', 'pengumumen'));
-}
-
-
+        return view('ketuaUKM.pengumuman.tampilan', compact('ukm', 'pengumumen'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -68,12 +66,10 @@ class PengumumanController extends Controller
 
         $pengumuman->save();
 
-        return redirect()->route('pengumuman.show', ['id' => $ukm->id])->with('success', 'Pengumuman berhasil ditambahkan');
+        return redirect()
+            ->route('pengumuman.show', ['id' => $ukm->id])
+            ->with('success', 'Pengumuman berhasil ditambahkan');
     }
-
-
-
-
 
     /**
      * Display the specified resource.
@@ -84,7 +80,9 @@ class PengumumanController extends Controller
     public function show($id)
     {
         $ukm = Ukm::findOrFail($id);
-        $pengumumen = Pengumuman::where('ukm_id', $ukm->id)->orderBy('id', 'asc')->get();
+        $pengumumen = Pengumuman::where('ukm_id', $ukm->id)
+            ->orderBy('id', 'asc')
+            ->get();
         return view('ketuaUKM.pengumuman.show', compact('pengumumen', 'ukm'));
     }
 
@@ -114,14 +112,16 @@ class PengumumanController extends Controller
             'isi_pengumuman' => 'required',
             'waktu_upload' => 'required',
         ]);
-    
+
         $pengumuman = Pengumuman::findOrFail($id);
         $pengumuman->judul = $validateData['judul'];
         $pengumuman->isi_pengumuman = $validateData['isi_pengumuman'];
         $pengumuman->waktu_upload = $validateData['waktu_upload'];
         $pengumuman->save();
-    
-        return redirect()->route('pengumuman.show', ['id' => $pengumuman->ukm_id])->with('success', 'Pengumuman berhasil diperbarui');
+
+        return redirect()
+            ->route('pengumuman.show', ['id' => $pengumuman->ukm_id])
+            ->with('success', 'Pengumuman berhasil diperbarui');
     }
 
     /**
@@ -136,6 +136,8 @@ class PengumumanController extends Controller
         $ukm_id = $pengumuman->ukm_id;
         $pengumuman->delete();
 
-        return redirect()->route('ketuaUKM.pengumuman.show', ['id' => $ukm_id])->with('success', 'Pengumuman berhasil dihapus');
+        return redirect()
+            ->route('ketuaUKM.pengumuman.show', ['id' => $ukm_id])
+            ->with('success', 'Pengumuman berhasil dihapus');
     }
 }

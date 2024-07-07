@@ -74,8 +74,10 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     Route::get('/absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
     Route::put('/absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::resource('/jadwal', JadwalController::class)->parameters(['jadwal' => 'id']);
-    Route::resource('/jadwalPelatih', JadwalPelatihController::class);
-    Route::resource('/absensiPelatih/', AbsensiPelatihController::class);
+    Route::resource('/jadwalPelatih', JadwalPelatihController::class)->parameters(['jadwalPelatih' => 'id']);
+    Route::resource('/kegiatanPelatih', KegiatanPelatihController::class)->parameters(['kegiatanPelatih' => 'id']);
+    Route::resource('/absensiPelatih', AbsensiPelatihController::class)->parameters(['absensiPelatih' => 'id']);
+    Route::resource('/pengumumanPelatih', PengumumanPelatihController::class)->parameters(['pengumumanPelatih' => 'id']);
     Route::resource('/ukm', UKMAdminSimudahController::class);
     Route::resource('/jadwalAdminSimudah', JadwalAdminSimudahController::class);
     Route::resource('/pengumumanAdminSimudah', PengumumanAdminSimudahController::class);

@@ -56,7 +56,8 @@
                                                 </a>
                                             </td>
                                             <td>
-                                            <a href="{{ route('kegiatan.edit', $kegiatan->id) }}" class="btn btn-primary">Edit</a>
+                                                <a href="{{ route('kegiatan.edit', $kegiatan->id) }}"
+                                                    class="btn btn-primary">Edit</a>
                                             </td>
                                         </tr>
                                     @endif
