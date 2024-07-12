@@ -34,16 +34,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($jadwals as $jadwal)
+                                @forelse ($jadwals as $index => $jadwal)
                                     <tr>
-                                        <td>{{ $jadwal->id }}</td>
+                                        <td>{{ $index + 1 }}</td>
                                         <td>{{ $jadwal->ukm->nama_ukm }}</td>
                                         <td>{{ $jadwal->waktu_mulai }}</td>
                                         <td>{{ $jadwal->waktu_selesai }}</td>
                                         <td>{{ $jadwal->hari }}</td>
                                         <td>{{ $jadwal->tempat }}</td>
                                         <td>
-                                            <a href="{{ route('jadwalAdminSimudah.edit', $jadwal->id) }}" class="btn btn-primary">Edit</a>
+                                            <a href="{{ route('jadwalAdminSimudah.edit', $jadwal->id) }}"
+                                                class="btn btn-primary">Edit</a>
                                         </td>
                                     </tr>
                                 @empty

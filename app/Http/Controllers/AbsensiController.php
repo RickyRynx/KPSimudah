@@ -54,7 +54,6 @@ class AbsensiController extends Controller
         return view('ketuaUKM.absensi.tambah', compact('ukm', 'anggota', 'pelatih'));
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -71,12 +70,11 @@ class AbsensiController extends Controller
             'waktu_selesai' => 'required',
         ]);
 
-
         //ambil extensi //png / jpg / gif
         $ext = $request->image->getClientOriginalExtension();
 
         //ubah nama file file
-        $rename_file = 'file-' . time() . "." . $ext; //contoh file : file-timestamp.jpg
+        $rename_file = 'file-' . time() . '.' . $ext; //contoh file : file-timestamp.jpg
 
         //upload foler ke dalam folder public
         $request->image->storeAs('public/foto_absensi/', $rename_file); //bisa diletakan difolder lain dengan store ke public/(folderlain)
@@ -94,6 +92,7 @@ class AbsensiController extends Controller
             'anggota_id.*' => 'exists:anggotas,id',
             'status_absensi' => 'required|array',
             'status_absensi.*' => 'in:H,I,A',
+            'keterangan_absensi' => 'nullable|string',
         ]);
 
         $absensiDetailData = [];
@@ -102,7 +101,7 @@ class AbsensiController extends Controller
                 'absensi_id' => $absensis->id,
                 'anggota_id' => $anggotaItem,
                 'status_absensi' => $request->input("status_absensi.{$anggotaItem}"),
-                'keterangan' => $request->input("keterangan_absensi.{$anggotaItem}"),
+                'keterangan_absensi' => $request->input("keterangan_absensi.{$anggotaItem}"),
             ];
         }
         // dd($absensiDetailData);
@@ -125,16 +124,19 @@ class AbsensiController extends Controller
             $data_pembina = User::findOrFail($id_pembina_ukm);
             $alamatTujuan = $data_pembina->email;
 
-            Mail::send('ketuaUKM.absensi.view', compact('absensis'), function($message) use ($pdf, $alamatTujuan) {
+            Mail::send('ketuaUKM.absensi.view', compact('absensis'), function ($message) use ($pdf, $alamatTujuan) {
                 $message->to($alamatTujuan)->subject('Absensi Baru');
                 $message->attachData($pdf->output(), 'absensi.pdf');
             });
 
-            return redirect()->route('absensi.show', ['id' => $absensis->ukm_id])->with('success', 'Absensi Berhasil Ditambahkan');
+            return redirect()
+                ->route('absensi.show', ['id' => $absensis->ukm_id])
+                ->with('success', 'Absensi Berhasil Ditambahkan');
         } else {
-            return redirect()->route('absensi.show', ['id' => $absensis->ukm_id])->with('success', 'Absensi Berhasil ditambahkan, tetapi data pembina belum di set, tidak dapat mengirimkan email');
+            return redirect()
+                ->route('absensi.show', ['id' => $absensis->ukm_id])
+                ->with('success', 'Absensi Berhasil ditambahkan, tetapi data pembina belum di set, tidak dapat mengirimkan email');
         }
-
     }
 
     /**
@@ -147,30 +149,22 @@ class AbsensiController extends Controller
     public function show($id, Request $request)
     {
         $ukm = Ukm::findOrFail($id);
-    
+
         $query = $ukm->absensis()->orderBy('id', 'asc');
-    
+
         // Filter tanggal jika tanggal_awal dan tanggal_akhir diset
         if ($request->has('tanggal_awal') && $request->has('tanggal_akhir')) {
             $tanggal_awal = $request->input('tanggal_awal');
             $tanggal_akhir = $request->input('tanggal_akhir');
-    
+
             $query->whereBetween('created_at', [$tanggal_awal . ' 00:00:00', $tanggal_akhir . ' 23:59:59']);
         }
-    
+
         $absensis = $query->get();
-    
+
         // Menghitung jumlah kehadiran, izin, dan alpa
-        $countData = AbsensiDetail::select(
-            'absensi_details.absensi_id',
-            DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'H' THEN 1 END) AS count_H"),
-            DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'I' THEN 1 END) AS count_I"),
-            DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'A' THEN 1 END) AS count_A")
-        )
-            ->join('absensis', 'absensi_details.absensi_id', '=', 'absensis.id')
-            ->groupBy('absensi_details.absensi_id')
-            ->get();
-    
+        $countData = AbsensiDetail::select('absensi_details.absensi_id', DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'H' THEN 1 END) AS count_H"), DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'I' THEN 1 END) AS count_I"), DB::raw("COUNT(CASE WHEN absensi_details.status_absensi = 'A' THEN 1 END) AS count_A"))->join('absensis', 'absensi_details.absensi_id', '=', 'absensis.id')->groupBy('absensi_details.absensi_id')->get();
+
         // Join data jumlah kehadiran, izin, dan alpa ke dalam data absensi
         $absensis = $absensis->map(function ($absensi) use ($countData) {
             $counts = $countData->firstWhere('absensi_id', $absensi->id);
@@ -179,11 +173,19 @@ class AbsensiController extends Controller
             $absensi->count_A = $counts ? $counts->count_A : 0;
             return $absensi;
         });
-    
+
         // Tampilkan view dengan data yang telah diproses
         return view('ketuaUKM.absensi.show', compact('absensis', 'ukm'));
     }
-    
+
+    public function detail($id)
+    {
+        $ukm = Ukm::findOrFail($id);
+        $absensi = Absensi::findOrFail($id);
+        $absensiDetails = AbsensiDetail::where('absensi_id', $id)->get();
+
+        return view('ketuaUKM.absensi.detail', compact('absensi', 'absensiDetails', 'ukm'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -220,33 +222,32 @@ class AbsensiController extends Controller
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
         ]);
-    
+
         $absensi = Absensi::findOrFail($id);
-    
+
         if ($request->hasFile('image')) {
             $ext = $request->image->getClientOriginalExtension();
-            $rename_file = 'file-' . time() . "." . $ext;
+            $rename_file = 'file-' . time() . '.' . $ext;
             $request->image->storeAs('public/foto_absensi/', $rename_file);
             $validateData['image'] = $rename_file;
-    
+
             // Hapus file lama
             if ($absensi->image) {
                 Storage::delete('public/foto_absensi/' . $absensi->image);
             }
         }
-    
+
         $absensi->update($validateData);
-    
+
         $statusAbsensi = $request->input('status_absensi');
-    
+
         foreach ($statusAbsensi as $anggotaId => $status) {
-            AbsensiDetail::updateOrCreate(
-                ['absensi_id' => $id, 'anggota_id' => $anggotaId],
-                ['status_absensi' => $status]
-            );
+            AbsensiDetail::updateOrCreate(['absensi_id' => $id, 'anggota_id' => $anggotaId], ['status_absensi' => $status]);
         }
-    
-        return redirect()->route('ketuaUKM.absensi.show', $absensi->ukm_id)->with('success', 'Data absensi berhasil diupdate');
+
+        return redirect()
+            ->route('ketuaUKM.absensi.show', $absensi->ukm_id)
+            ->with('success', 'Data absensi berhasil diupdate');
     }
 
     /**

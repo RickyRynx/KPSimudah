@@ -31,18 +31,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($inventaris as $inventaris)
+                                @forelse ($inventaris as $index => $inventaris)
                                     @if ($inventaris->ukm_id == $ukm->id)
                                         <tr>
-                                            <td>{{ $inventaris->id }}</td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>{{ $inventaris->nama_barang }}</td>
                                             <td>{{ $inventaris->jumlah }}</td>
                                             <td>{{ $inventaris->jumlah_rusak }}</td>
                                             <td>{{ $inventaris->jumlah_bagus }}</td>
                                             <td>{{ $inventaris->keterangan }}</td>
                                             <td>
-                                                <a href="{{ route('inventaris.edit', $inventaris->id) }}" class="btn btn-primary mb-2">Edit</a>
-                                                <form action="{{ route('inventaris.destroy', $inventaris->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus inventaris ini?')">
+                                                <a href="{{ route('inventaris.edit', $inventaris->id) }}"
+                                                    class="btn btn-primary mb-2">Edit</a>
+                                                <form action="{{ route('inventaris.destroy', $inventaris->id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus inventaris ini?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger mb-2">Delete</button>

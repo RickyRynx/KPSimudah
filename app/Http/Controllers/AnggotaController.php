@@ -50,10 +50,10 @@ class AnggotaController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'npm' => 'required|numeric',
-            'nama_mahasiswa' => 'required',
-            'nomor_hp' => 'required|numeric',
-            'email' => 'required|email',
+            'npm' => 'required|numeric|unique:anggotas,npm',
+            'nama_mahasiswa' => 'required|unique:anggotas,nama_mahasiswa',
+            'nomor_hp' => 'required|numeric|unique:anggotas,nomor_hp',
+            'email' => 'required|email|unique:anggotas,email',
             'jabatan' => 'required|in:KetuaUKM,Sekretaris,Anggota',
             //'ukm_id' => 'required|exists:ukms,id',
             'status_user' => 'string|max:255|in:Aktif,Tidak Aktif',
@@ -141,10 +141,10 @@ class AnggotaController extends Controller
             'jabatan' => 'required|in:KetuaUKM,Sekretaris,Anggota',
             'status_user' => 'required|string|max:255|in:Aktif,Tidak Aktif',
         ]);
-    
+
         $anggota = Anggota::findOrFail($id);
         $anggota->update($validateData);
-    
+
         return redirect()->route('anggota.show', ['id' => $anggota->ukm_id])->with('success', 'Anggota Berhasil Diperbarui');
     }
 

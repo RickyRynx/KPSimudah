@@ -51,11 +51,11 @@ class KegiatanController extends Controller
     {
         $validateData = $request->validate([
             'no_usulan' => 'required',
-            'nama_kegiatan' => 'required',
+            'nama_kegiatan' => 'required|unique:kegiatans,nama_kegiatan',
             'afiliasi_lomba' => 'required|in:Internal,Eksternal',
-            'file_usulan' => 'required|mimes:pdf,doc|max:4096',
+            'file_usulan' => 'required|mimes:pdf,doc|max:4096|unique:kegiatans,file_usulan',
             'skala_lomba' => 'required|in:Regional,Nasional,Internasional',
-            'laporan_lomba' => 'required|mimes:pdf,doc|max:4096',
+            'laporan_lomba' => 'required|mimes:pdf,doc|max:4096|unique:kegiatans,laporan_lomba',
             //'ukm_id' => 'required|exists:ukms,id'
         ]);
 

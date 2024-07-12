@@ -11,6 +11,7 @@ class AbsensiDetail extends Model
         'absensi_id',
         'anggota_id',
         'status_absensi',
+        'keterangan_absensi'
     ];
 
     public function absensi()

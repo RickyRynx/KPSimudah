@@ -27,15 +27,15 @@ class UKMAdminSimudahController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-{
-    // Create a new Ukm instance to pass to the view
-    $ukm = new Ukm();
+    {
+        // Create a new Ukm instance to pass to the view
+        $ukm = new Ukm();
 
-    // You might also want to pass a list of users for dropdowns
-    $users = User::all();
+        // You might also want to pass a list of users for dropdowns
+        $users = User::all();
 
-    return view('adminSimudah.ukm.tambah', compact('ukm', 'users'));
-}
+        return view('adminSimudah.ukm.tambah', compact('ukm', 'users'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,20 +44,20 @@ class UKMAdminSimudahController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'nama_ukm' => 'required|string|max:255',
-        'pembina_id' => 'nullable|exists:users,id',
-        'pelatih_id' => 'nullable|exists:users,id',
-        'ketuaMahasiswa_id' => 'nullable|exists:users,id',
-        'status_user' => 'string|max:255',
-    ]);
+    {
+        $validatedData = $request->validate([
+            'nama_ukm' => 'required|string|max:255|unique:ukms,nama_ukm',
+            'pembina_id' => 'nullable|exists:users,id|unique:ukms,pembina_id',
+            'pelatih_id' => 'nullable|exists:users,id|unique:ukms,pelatih_id',
+            'ketuaMahasiswa_id' => 'nullable|exists:users,id|unique:ukms,ketuaMahasiswa_id',
+            'status_user' => 'string|max:255',
+            'kategori' => 'string|max:255',
+        ]);
 
-    Ukm::create($validatedData);
+        Ukm::create($validatedData);
 
-    return redirect()->route('ukm.index')->with('success', 'UKM berhasil ditambahkan.');
-}
-
+        return redirect()->route('ukm.index')->with('success', 'UKM berhasil ditambahkan.');
+    }
 
     /**
      * Display the specified resource.
@@ -100,6 +100,7 @@ class UKMAdminSimudahController extends Controller
             'pelatih_id' => 'nullable|exists:users,id',
             'ketuaMahasiswa_id' => 'nullable|exists:users,id',
             'status_user' => 'string|max:255|in:Aktif,Tidak Aktif',
+            'kategori' => 'string|max:255|in:UKM,HMJ',
         ]);
 
         // Cari UKM berdasarkan ID dan update data
@@ -107,7 +108,7 @@ class UKMAdminSimudahController extends Controller
         $ukm->update($validatedData);
 
         // Redirect ke halaman index
-        return redirect()->route('ukm.index')->with('success', 'UKM berhasil diperbarui.');
+        return redirect()->route('ukm.index')->with('success', 'UKM/HMJ berhasil diperbarui.');
     }
 
     /**

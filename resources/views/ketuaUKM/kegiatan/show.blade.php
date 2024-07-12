@@ -34,10 +34,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($kegiatans as $kegiatan)
+                                @forelse ($kegiatans as $index => $kegiatan)
                                     @if ($kegiatan->ukm_id == $ukm->id)
                                         <tr>
-                                            <td>{{ $kegiatan->id }}</td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>{{ $kegiatan->no_usulan }}</td>
                                             <td>{{ $kegiatan->nama_kegiatan }}</td>
                                             <td>{{ $kegiatan->afiliasi_lomba }}</td>

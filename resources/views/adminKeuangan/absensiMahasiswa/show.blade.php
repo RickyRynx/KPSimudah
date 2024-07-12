@@ -2,180 +2,76 @@
 @section('content')
     <div class="container">
         <div class="row">
-
-            <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7 mx-auto">
-                <div class="card shadow mb-4">
+            <div class="col-xl-10 col-lg-7 mx-auto">
+                <div class="card shadow mb-2">
                     <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 bg-dark    ">
-                        <h1 class="putih">Filter Tanggal</h1>
-                        <div class="justify-content-between">
-                            <form action="/submit-endpoint" method="post" id="myForm" class="d-flex">
-                                <div class="form-group mr-3">
-                                    <input type="date" id="tanggalMulai" name="tanggalMulai" class="form-control">
-                                </div>
-
-                                <div class="form-group mr-3">
-                                    <input type="date" id="tanggalSelesai" name="tanggalSelesai" class="form-control">
-                                </div>
-
-                                <div class="form-group mr-3">
-                                    <select id="pilihanDropdown" name="pilihanDropdown" class="form-control">
-                                        <option value="opsi1">Opsi 1</option>
-                                        <option value="opsi2">Opsi 2</option>
-                                        <option value="opsi3">Opsi 3</option>
-                                    </select>
-                                </div>
-
-                            </form>
-                            <div>
-                                <button type="submit" class="btn btn-primary ml-3">Lihat</button>
-                            </div>
-                        </div>
-                        <style>
-                            .putih {
-                                color: white;
-                            }
-                        </style>
+                    <div class="card-header py-3">
+                        <h1 style="text-align:center;">Absensi Mahasiswa</h1>
+                        <h1 style="text-align:center;">{{ $ukm->nama_ukm }}</h1>
                     </div>
 
-
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-0">
-                            <div class="row-per-page">
-                                Show:
-                                <select id="rowsPerPage" onchange="changeRowsPerPage()">
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                </select>
-                                Entries
-                            </div>
-                            <form
-                                class="d-none d-sm-inline-block form-inline mr-8 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small"
-                                        placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
+                    <div class="card-body py-3">
+                        <!-- Form Filter Tanggal -->
+                        <form method="GET" action="{{ route('absensiMahasiswaKeuangan.show', $ukm->id) }}">
+                            <div class="form-row">
+                                <div class="form-group col-md-5">
+                                    <label for="tanggal_awal">Tanggal Mulai</label>
+                                    <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal">
                                 </div>
-                            </form>
-                        </div>
+                                <div class="form-group col-md-5">
+                                    <label for="tanggal_akhir">Tanggal Selesai</label>
+                                    <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir">
+                                </div>
+                                <div class="form-group col-md-2 align-self-end">
+                                    <button type="submit" class="btn btn-primary">Cari</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Tabel Absensi -->
                         <div class="table-responsive mt-3">
-                            <table class="table">
+                            <table class="table table-bordered table-responsive" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">No
-                                        </th>
-                                        <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">
-                                            Tanggal/Waktu</th>
-                                        <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Jumlah
-                                            Hadir</th>
-                                        <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Jumlah
-                                            Izin</th>
-                                        <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">
-                                            Keterangan</th>
-                                        <th scope="col" style="border: 1px solid; padding: 8px; text-align: left;">Foto
-                                        </th>
-
+                                        <th scope="col">No</th>
+                                        <th scope="col">Tanggal/Waktu</th>
+                                        <th scope="col">Jumlah Hadir</th>
+                                        <th scope="col">Jumlah Izin</th>
+                                        <th scope="col">Jumlah Alfa</th>
+                                        <th scope="col">Keterangan</th>
+                                        <th scope="col">Foto</th>
+                                        <th scope="col">Jam Mulai</th>
+                                        <th scope="col">Jam Berakhir</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row" style="border: 1px solid; padding: 8px; text-align: left;"></th>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" style="border: 1px solid; padding: 8px; text-align: left;"></th>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" style="border: 1px solid; padding: 8px; text-align: left;"></th>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-                                        <td style="border: 1px solid; padding: 8px; text-align: left;"></td>
-
-                                    </tr>
+                                    @forelse ($absensis as $index => $absensi)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($absensi->created_at)->format('d/m/Y H:i') }}</td>
+                                            <td>{{ $absensi->count_H }}</td>
+                                            <td>{{ $absensi->count_I }}</td>
+                                            <td>{{ $absensi->count_A }}</td>
+                                            <td>{{ $absensi->keterangan }}</td>
+                                            <td>
+                                                <img src="{{ url('storage/foto_absensi/' . $absensi->image) }}"
+                                                    alt="{{ $absensi->image }}" style="max-width: 100px;">
+                                            </td>
+                                            <td>{{ $absensi->waktu_mulai }}</td>
+                                            <td>{{ $absensi->waktu_selesai }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="10" class="text-center">Data Absensi belum tersedia.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
+                            {{-- {{ $absensis->links() }} --}}
                         </div>
-
-
-                        <div class="card">
-                            <div class="card-body d-flex justify-content-between align-items-center mb-0">
-                                <div class="dataTables_info ml-2">Showing</div>
-
-                                <div class="paginate">
-                                    <button onclick="previousPage()">Previous Page</button>
-                                    <span id="pageNumber">1</span>
-                                    <button onclick="nextPage()">Next Page</button>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <script>
-                            var table = document.getElementById('tb_jadwal');
-                            var pageNumber = 1;
-                            var rowsPerPage = 5; // Jumlah baris per halaman
-                            var rows = table.rows;
-
-                            function changeRowsPerPage() {
-                                rowsPerPage = document.getElementById('rowsPerPage').value;
-                                showCurrentPage();
-                            }
-
-                            function showCurrentPage() {
-                                var startIndex = (pageNumber - 1) * rowsPerPage;
-                                var endIndex = startIndex + parseInt(rowsPerPage);
-
-                                for (var i = 0; i < rows.length; i++) {
-                                    if (i >= startIndex && i < endIndex) {
-                                        rows[i].style.display = 'table-row';
-                                    } else {
-                                        rows[i].style.display = 'none';
-                                    }
-                                }
-                                document.getElementById('pageNumber').innerText = 'Page: ' + pageNumber;
-                            }
-
-                            function previousPage() {
-                                if (pageNumber > 1) {
-                                    pageNumber--;
-                                    showCurrentPage();
-                                }
-                            }
-
-                            function nextPage() {
-                                var maxPage = Math.ceil(rows.length / rowsPerPage);
-                                if (pageNumber < maxPage) {
-                                    pageNumber++;
-                                    showCurrentPage();
-                                }
-                            }
-
-                            showCurrentPage();
-                        </script>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

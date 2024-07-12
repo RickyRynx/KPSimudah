@@ -1,6 +1,9 @@
 @extends('layout.masterUKMAdminSimudah')
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
         <div class="card shadow m-4">
             <div class="card-header py-3">
                 <!-- Page Heading -->
@@ -28,21 +31,23 @@
                                 <th scope="col">Nama Pelatih</th>
                                 <th scope="col">Nama Ketua</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Kategori</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="ukms">
-                            @forelse ($ukms as $ukm)
+                            @forelse ($ukms as $index => $ukm)
                                 <tr>
-                                    <td>{{ $ukm->id }}</td>
+                                    <td>{{ $index + 1 }}</td>
                                     <td>{{ $ukm->nama_ukm }}</td>
                                     <td>{{ $ukm->pembina ? $ukm->pembina->name : '-' }}</td>
                                     <td>{{ $ukm->pelatih ? $ukm->pelatih->name : '-' }}</td>
                                     <td>{{ $ukm->ketuaMahasiswa ? $ukm->ketuaMahasiswa->name : '-' }}</td>
-                                    <td>{{ $ukm->status_user }}</td>
+                                    <td>{{ $ukm->status }}</td>
+                                    <td>{{ $ukm->kategori }}</td>
                                     <td>
-                                            <a href="{{ route('ukm.edit', $ukm->id) }}" class="btn btn-primary">Edit</a>
-                                            </td>
+                                        <a href="{{ route('ukm.edit', $ukm->id) }}" class="btn btn-primary">Edit</a>
+                                    </td>
                                 </tr>
                             @empty
                                 <div class="alert alert-danger">
@@ -53,4 +58,7 @@
                     </table>
                     {{-- {{ $ukms->links() }} --}}
                 </div>
-            @endsection
+            </div>
+        </div>
+    </div>
+@endsection

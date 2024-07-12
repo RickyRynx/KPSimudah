@@ -47,9 +47,10 @@ class User extends AuthenticatableUser implements Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'username', 'password', 'role', 'status_user'];
+    protected $fillable = ['name', 'username', 'email', 'password', 'role', 'status_user'];
 
-    // public function ukm(){
-    //     return $this->hasMany(Ukm::class);
-    // }
+    public function ukm()
+    {
+        return $this->belongsTo(Ukm::class, 'ukm_id');
+    }
 }

@@ -19,12 +19,11 @@ class LaporanMahasiswaBidangKemahasiswaanController extends Controller
      */
     public function index()
     {
-        $ukm = Ukm::with(['absensis' => function($query) {
-            $query->select('ukm_id', DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'))
-                ->distinct()
-                ->orderBy('year', 'desc')
-                ->orderBy('month', 'desc');
-        }])->get();
+        $ukm = Ukm::with([
+            'absensis' => function ($query) {
+                $query->select('ukm_id', DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'))->distinct()->orderBy('year', 'desc')->orderBy('month', 'desc');
+            },
+        ])->get();
 
         $absensis = $ukm->flatMap(function ($ukm) {
             return $ukm->absensis->map(function ($absensi) use ($ukm) {
@@ -35,7 +34,6 @@ class LaporanMahasiswaBidangKemahasiswaanController extends Controller
 
         return view('wakilRektorIII.laporanMahasiswa.tampilan', compact('ukm', 'absensis'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -73,16 +71,15 @@ class LaporanMahasiswaBidangKemahasiswaanController extends Controller
             $member->jumlah_kehadiran = AbsensiDetail::where('anggota_id', $member->id)
                 ->where('status_absensi', 'H')
                 ->whereHas('absensi', function ($query) use ($year, $month) {
-                    $query->whereYear('created_at', $year)
-                        ->whereMonth('created_at', $month);
+                    $query->whereYear('created_at', $year)->whereMonth('created_at', $month);
                 })
                 ->count();
             $member->persentase_kehadiran = ($member->jumlah_kehadiran / 8) * 100; // Asumsi 8 kali latihan dalam sebulan
         }
+        
 
         return view('wakilRektorIII.laporanMahasiswa.show', compact('ukm', 'anggota'));
     }
-
 
     /**
      * Show the form for editing the specified resource.

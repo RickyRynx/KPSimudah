@@ -96,10 +96,10 @@
                                             <a class="small" href="{{ route('password.request') }}">Forgot
                                                 Password?</a>
                                         </div>
-                                        <div class="text-center">
+                                        {{-- <div class="text-center">
                                             <a class="small" href="{{ route('register') }}">Don't Have Account?? Please
                                                 Register</a>
-                                        </div>
+                                        </div> --}}
                                     </form>
                                 </div>
                             </div>

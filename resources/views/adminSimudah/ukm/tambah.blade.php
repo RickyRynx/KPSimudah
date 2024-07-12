@@ -10,43 +10,87 @@
                     </div>
 
                     <div class="card-body" style="display: flex; flex-direction: column;">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{ route('ukm.store') }}" method="post">
                             @csrf
-                            <label for="nama_ukm" style="margin-bottom: 5px;">Nama UKM/HMJ</label>
-                            <input type="text" class="form-control" name="nama_ukm" required
-                                style="margin-bottom: 10px;">
+                            <div class="form-group">
+                                <label for="nama_ukm">Nama UKM</label>
+                                <input type="text" class="form-control @error('nama_ukm') is-invalid @enderror"
+                                    id="nama_ukm" name="nama_ukm" value="{{ old('nama_ukm') }}">
+                                @error('nama_ukm')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                            <!-- Nama Pembina, Pelatih, Ketua Mahasiswa fields ... -->
-                            <label for="pembina_id" style="margin-bottom: 5px;">Nama Pembina</label>
-                            <select name="pembina_id" class="form-control" style="margin-bottom: 10px;">
-                                <option value=""selected>-</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label for="pembina_id">Pembina</label>
+                                <select class="form-control @error('pembina_id') is-invalid @enderror" id="pembina_id"
+                                    name="pembina_id">
+                                    <option value="">Pilih Pembina</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ old('pembina_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('pembina_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                            <label for="pelatih_id" style="margin-bottom: 5px;">Nama Pelatih</label>
-                            <select name="pelatih_id" class="form-control" style="margin-bottom: 10px;">
-                                <option value=""selected>-</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label for="pelatih_id">Pelatih</label>
+                                <select class="form-control @error('pelatih_id') is-invalid @enderror" id="pelatih_id"
+                                    name="pelatih_id">
+                                    <option value="">Pilih Pelatih</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ old('pelatih_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('pelatih_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                            <label for="ketuaMahasiswa_id" style="margin-bottom: 5px;">Nama Ketua Mahasiswa</label>
-                            <select name="ketuaMahasiswa_id" class="form-control" style="margin-bottom: 10px;" required>
-                                <option value=""selected>-</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label for="ketuaMahasiswa_id">Ketua Mahasiswa</label>
+                                <select class="form-control @error('ketuaMahasiswa_id') is-invalid @enderror"
+                                    id="ketuaMahasiswa_id" name="ketuaMahasiswa_id">
+                                    <option value="">Pilih Ketua Mahasiswa</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ old('ketuaMahasiswa_id') == $user->id ? 'selected' : '' }}>
+                                            {{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('ketuaMahasiswa_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
 
-                            <label for="status_user" style="margin-bottom: 5px;">Status User</label>
-                            <select name="status_user" class="form-control" style="margin-bottom: 10px" required>
+                            <label for="status_user" style="margin-bottom: 5px;">Status</label>
+                            <select name="status" class="form-control" style="margin-bottom: 10px" required>
                                 <option value="Aktif" selected>Aktif</option>
                                 <option value="Non-aktif">Non Aktif</option>
                             </select>
+
+                            <label for="kategori" style="margin-bottom: 5px;">Kategori</label>
+                            <select name="kategori" class="form-control" style="margin-bottom: 10px" required>
+                                <option value="UKM" selected>UKM</option>
+                                <option value="HMJ">HMJ</option>
+                            </select>
+
 
                             <button type="submit" class="btn btn-auto btn-primary shadow-sm bg-green"
                                 style="background-color: green;">

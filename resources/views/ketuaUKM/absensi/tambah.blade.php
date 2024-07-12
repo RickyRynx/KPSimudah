@@ -26,13 +26,16 @@
                                     <input type="file" class="form-control" name="image" accept=".jpg" required>
                                 </div>
 
-                            <div class="form-group">
-                                    <label for="kehadiran_pelatih" class="form-label">Kehadiran Pelatih ({{ $pelatih->name }})</label>
-                                <div>
-                                    <label><input type="radio" name="kehadiran_pelatih" value="Hadir" required> Hadir</label>
-                                    <label><input type="radio" name="kehadiran_pelatih" value="Tidak Hadir" required> Tidak Hadir</label>
+                                <div class="form-group">
+                                    <label for="kehadiran_pelatih" class="form-label">Kehadiran Pelatih
+                                        ({{ $pelatih->name }})</label>
+                                    <div>
+                                        <label><input type="radio" name="kehadiran_pelatih" value="Hadir" required>
+                                            Hadir</label>
+                                        <label><input type="radio" name="kehadiran_pelatih" value="Tidak Hadir" required>
+                                            Tidak Hadir</label>
+                                    </div>
                                 </div>
-                            </div>
 
                                 <div class="mb-1">
                                     <label for="waktu_mulai" class="form-label">Jam Mulai</label>
@@ -46,7 +49,8 @@
                                 </div>
 
                                 <div class="mb-3 ml-auto">
-                                    <button type="button" id="markAllHadir" class="btn btn-success ml-auto">Checklist Hadir Semua</button>
+                                    <button type="button" id="markAllHadir" class="btn btn-success ml-auto">Checklist Hadir
+                                        Semua</button>
                                 </div>
 
                                 <table border="1" cellpadding="8" cellspacing="0" width="100%">
@@ -74,8 +78,7 @@
                                                             value="I"></td>
                                                     <td><input type="radio" name="status_absensi[{{ $anggotaItem->id }}]"
                                                             value="A" checked></td>
-                                                    <td><input type="text"
-                                                            name="keterangan_absensi[{{ $anggotaItem->id }}]">
+                                                    <td><input type="text" name="keterangan_absensi">
                                                     </td>
                                                 </tr>
                                             @endif
@@ -95,9 +98,9 @@
 
                                 <script>
                                     document.getElementById('markAllHadir').addEventListener('click', function() {
-                                    let radioButtons = document.querySelectorAll('input[type="radio"][value="H"]');
-                                    radioButtons.forEach(button => {
-                                    button.checked = true;
+                                        let radioButtons = document.querySelectorAll('input[type="radio"][value="H"]');
+                                        radioButtons.forEach(button => {
+                                            button.checked = true;
                                         });
                                     });
                                 </script>

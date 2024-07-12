@@ -12,7 +12,8 @@ class Ukm extends Model
         'pembina_id',
         'pelatih_id',
         'ketuaMahasiswa_id',
-        'status_user'
+        'status',
+        'kategori'
     ];
 
     public function pembina()
@@ -53,6 +54,11 @@ class Ukm extends Model
     public function absensis()
     {
         return $this->hasMany(Absensi::class, 'ukm_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'ukm_id');
     }
 }
 

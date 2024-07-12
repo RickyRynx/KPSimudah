@@ -29,6 +29,17 @@ use App\Http\Controllers\AbsensiUKMBidangKemahasiswaanController;
 use App\Http\Controllers\AbsensiMahasiswaBidangKemahasiswaanController;
 use App\Http\Controllers\LaporanMahasiswaBidangKemahasiswaanController;
 use App\Http\Controllers\LaporanKegiatanKemahasiswaanController;
+use App\Http\Controllers\ProfileKetuaUKMController;
+use App\Http\Controllers\ProfilePembinaController;
+use App\Http\Controllers\ProfilePelatihController;
+use App\Http\Controllers\ProfileAdminKeuanganController;
+use App\Http\Controllers\ProfileAdminController;
+use App\Http\Controllers\ProfileBidangKemahasiswaanController;
+use App\Http\Controllers\AddKetuaUKMController;
+use App\Http\Controllers\AddPembinaController;
+use App\Http\Controllers\AddPelatihController;
+use App\Http\Controllers\AddAdminKeuanganController;
+use App\Http\Controllers\AddBidangKemahasiswaanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,9 +72,9 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     Route::put('/anggota/{id}', [AnggotaController::class, 'update'])->name('anggota.update');
     Route::resource('/laporanInventaris', LaporanInventarisController::class)->parameters(['laporanInventaris' => 'id']);
     Route::resource('/inventaris', InventarisController::class)->parameters(['inventaris' => 'id']);
-    // Route::get('/inventaris/{id}/edit', 'InventarisController@edit')->name('inventaris.edit');
-    // Route::put('/inventaris/{id}', 'InventarisController@update')->name('inventaris.update');
-    // Route::delete('/inventaris/{id}', 'InventarisController@destroy')->name('inventaris.destroy');
+    Route::get('/inventaris/{id}/edit', [InventarisController::class, 'edit'])->name('inventaris.edit');
+    Route::put('/inventaris/{id}', [InventarisController::class, 'update'])->name('inventaris.update');
+    Route::delete('/inventaris/{id}', [InventarisController::class, 'destroy'])->name('inventaris.destroy');
     Route::get('ketuaUKM/kegiatan/{id}', [KegiatanController::class, 'show'])->name('ketuaUKM.kegiatan.show');
     Route::resource('/kegiatan', KegiatanController::class)->parameters(['kegiatan' => 'id']);
     Route::get('kegiatan/{id}/edit', [KegiatanController::class, 'edit'])->name('kegiatan.edit');
@@ -72,6 +83,7 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     Route::delete('/pengumuman/{id}', 'PengumumanController@destroy')->name('pengumuman.destroy');
     Route::resource('/absensi', absensiController::class)->parameters(['absensi' => 'id']);
     Route::get('/absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
+    Route::get('/absensi/{id}/detail', [AbsensiController::class, 'detail'])->name('absensi.detail');
     Route::put('/absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::resource('/jadwal', JadwalController::class)->parameters(['jadwal' => 'id']);
     Route::resource('/jadwalPelatih', JadwalPelatihController::class)->parameters(['jadwalPelatih' => 'id']);
@@ -92,26 +104,38 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     Route::get('/laporanMahasiswaBidangKemahasiswaan/{id}/{year}/{month}', [LaporanMahasiswaBidangKemahasiswaanController::class, 'show'])->name('laporanMahasiswaBidangKemahasiswaan');
     Route::resource('/laporanMahasiswaBidangKemahasiswaan', LaporanMahasiswaBidangKemahasiswaanController::class)->parameters(['laporanMahasiswaBidangKemahasiswaan' => 'id']);
     Route::resource('/laporanKegiatanKemahasiswaan', LaporanKegiatanKemahasiswaanController::class)->parameters(['laporanKegiatanKemahasiswaan' => 'id']);
+    Route::resource('/profileKetuaUKM', ProfileKetuaUKMController::class)->parameters(['profileKetuaUKM' => 'id']);
+    Route::get('/profileKetuaUKM/{id}/edit', [ProfileKetuaUKMController::class, 'edit'])->name('profileKetuaUKM.edit');
+    Route::put('/profileKetuaUKM/{id}', [ProfileKetuaUKMController::class, 'update'])->name('profileKetuaUKM.update');
+    Route::resource('/profilePembina', ProfilePembinaController::class)->parameters(['profilePembina' => 'id']);
+    Route::get('/profilePembina/{id}/edit', [ProfilePembinaController::class, 'edit'])->name('profilePembina.edit');
+    Route::put('/profilePembina{id}', [ProfilePembinaController::class, 'update'])->name('profilePembina.update');
+    Route::resource('/profilePelatih', ProfilePelatihController::class)->parameters(['profilePelatih' => 'id']);
+    Route::get('/profilePelatih/{id}/edit', [ProfilePelatihController::class, 'edit'])->name('profilePelatih.edit');
+    Route::put('/profilePelatih/{id}', [ProfilePelatihController::class, 'update'])->name('profilePelatih.update');
+    Route::resource('/profileAdminKeuangan', ProfileAdminKeuanganController::class)->parameters(['profileAdminKeuangan' => 'id']);
+    Route::get('/profileAdminKeuangan/{id}/edit', [ProfileAdminKeuanganController::class, 'edit'])->name('profileAdminKeuangan.edit');
+    Route::put('/profileAdminKeuangan/{id}', [ProfileAdminKeuanganController::class, 'update'])->name('profileAdminKeuangan.update');
+    Route::resource('/profileAdmin', ProfileAdminController::class)->parameters(['profileAdmin' => 'id']);
+    Route::get('/profileAdmin/{id}/edit', [ProfileAdminController::class, 'edit'])->name('profileAdmin.edit');
+    Route::put('/profileAdmin/{id}', [ProfileAdminController::class, 'update'])->name('profileAdmin.update');
+    Route::resource('/profileBidangKemahasiswaan', ProfileBidangKemahasiswaanController::class)->parameters(['profileBidangKemahasiswaan' => 'id']);
+    Route::get('/profileBidangKemahasiswaan/{id}/edit', [ProfileBidangKemahasiswaanController::class, 'edit'])->name('profileBidangKemahasiswaan.edit');
+    Route::put('/profileBidangKemahasiswaan/{id}', [ProfileBidangKemahasiswaanController::class, 'update'])->name('profileBidangKemahasiswaan.update');
+    route::resource('/addKetuaUKM', AddKetuaUKMController::class);
+    route::resource('/addPembina', AddPembinaController::class);
+    route::resource('/addPelatih', AddPelatihController::class);
+    route::resource('/addAdminKeuangan', AddAdminKeuanganController::class);
+    route::resource('/addBidangKemahasiswaan', AddBidangKemahasiswaanController::class);
 });
-
-
 
 // Route::resource('/laporanKegiatanKemahasiswaan', LaporanKegiatanKemahasiswaanController::class);
 // web.php atau berkas rute yang sesuai
 // Route::get('ketuaUKM/kegiatan/show', [KegiatanController::class, 'show'])->name('ketuaUKM.kegiatan.show');
 
-
-
-
-
 // routes/web.php
-
 
 // web.php atau file di mana Anda mendefinisikan route
 // Route::resource('anggota/create/{id}', AnggotaController::class);
 
-
-
-
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

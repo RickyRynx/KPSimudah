@@ -39,6 +39,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
+                            <x-auth-session-status class="mb-4" :status="session('status')" />
                             <!-- Validation Errors -->
                             <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
@@ -84,16 +85,14 @@
 
                                 <!-- User Role -->
                                 <div class="form-group">
-                                    <x-label for="role" :value="__('User Role')" />
-                                    <select id="role" name="role" class="form-control form-control-user"
-                                        required>
+                                    <label for="role" class="form-label">User Role</label> <br>
+                                    <select name="role" class="form-control" required>
                                         <option value="ketuaMahasiswa">ketuaMahasiswa</option>
                                         <option value="pembina">pembina</option>
                                         <option value="pelatih">pelatih</option>
                                         <option value="adminKeuangan">adminKeuangan</option>
                                         <option value="adminSimudah">adminSimudah</option>
                                         <option value="bidangKemahasiswaan">bidangKemahasiswaan</option>
-                                        <!-- Tambahkan opsi role lain sesuai kebutuhan -->
                                     </select>
                                 </div>
 
