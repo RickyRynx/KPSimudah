@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Ukm;
+use App\Models\Jadwal;
+use App\Models\Anggota;
+use App\Models\Kegiatan;
+use App\Models\Inventaris;
+use App\Models\Absensi;
 use Illuminate\Support\Facades\Auth;
 
 class KetuaUKMController extends Controller
@@ -16,38 +22,25 @@ class KetuaUKMController extends Controller
      */
     public function index()
     {
-        // if (Auth::check()) {
-        // // Lakukan validasi login
-        // // ...
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
-        //     if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-        //         $user = Auth::user();
+        if ($ukm) {
+            $ukmId = $ukm->id;
+            $jadwals = Jadwal::where('ukm_id', $ukmId)->get();
+            $anggotas = Anggota::where('ukm_id', $ukmId)->count();
+            $absensis = Absensi::where('ukm_id', $ukmId)->count();
+            $kegiatans = Kegiatan::where('ukm_id', $ukmId)->count();
+            $inventaris = Inventaris::where('ukm_id', $ukmId)->count();
+        } else {
+            $jadwals = collect(); // return an empty collection if no UKM found
+            $anggotas = 0;
+            $absensis = 0;
+            $kegiatans = 0;
+            $inventaris = 0;
+        }
 
-        //         if ($user->isAdmin()) {
-        //             return redirect()->route('adminSimudah.dashboard.index');
-        //         } elseif ($user->isPembina()) {
-        //             return redirect()->route('pembina.dashboard.index');
-        //         } elseif ($user->isPelatih()) {
-        //             return redirect()->route('pelatih.dashboard.index');
-        //         } elseif ($user->isBidangKemahasiswaan()) {
-        //             return redirect()->route('wakilRektorIII.dashboard.index');
-        //         } elseif ($user->isAdminKeuangan()) {
-        //             return redirect()->route('adminKeuangan.dashboard.index');
-        //         } elseif ($user->isKetuaUKM()) {
-        //             return redirect()->route('ketuaUKM.dashboard.index');
-        //         } else {
-        //         // Pengguna tidak memiliki peran yang valid
-        //             Auth::logout();
-        //             return redirect()->route('login')->with('error', 'Invalid role.');
-        //         }
-        //     } else {
-        //     // Gagal login
-        //         return redirect()->route('login')->with('error', 'Invalid credentials.');
-        //     }
-        // } else {
-        //     return redirect()->route('login')->with('error', 'Unauthorized.');
-        // }
-        return view('ketuaUKM.dashboard.index');
+        return view('ketuaUKM.dashboard.index', compact('user', 'ukm', 'jadwals', 'kegiatans', 'anggotas', 'inventaris', 'absensis'));
     }
 
 

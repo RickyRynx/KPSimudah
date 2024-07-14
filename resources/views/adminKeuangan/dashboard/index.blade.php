@@ -1,62 +1,81 @@
 @extends('layout.masterAdminKeuangan')
 @section('content')
-
     <div class="container">
         <div class="row">
-            {{-- <div class="mb-2"> --}}
-                <h1 id="welcome-message"></h1>
+            <h1 id="welcome-message"></h1>
 
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        var welcomeMessage = document.getElementById('welcome-message');
-                        var hour = new Date().getHours();
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var welcomeMessage = document.getElementById('welcome-message');
+                    var hour = new Date().getHours();
 
-                        var greeting = '';
+                    var greeting = '';
 
-                        if (hour >= 5 && hour < 12) {
-                            greeting = 'Selamat Pagi';
-                        } else if (hour >= 12 && hour < 17) {
-                            greeting = 'Selamat Siang';
-                        } else if (hour >= 17 && hour < 20) {
-                            greeting = 'Selamat Sore';
-                        } else {
-                            greeting = 'Selamat Malam';
-                        }
+                    if (hour >= 5 && hour < 12) {
+                        greeting = 'Selamat Pagi';
+                    } else if (hour >= 12 && hour < 17) {
+                        greeting = 'Selamat Siang';
+                    } else if (hour >= 17 && hour < 20) {
+                        greeting = 'Selamat Sore';
+                    } else {
+                        greeting = 'Selamat Malam';
+                    }
 
-                        welcomeMessage.textContent = greeting + ', {{ Auth::user()->name }}';
-                    });
-                </script>
-            {{-- </div> --}}
+                    welcomeMessage.textContent = greeting + ', {{ Auth::user()->name }}';
+                });
+            </script>
 
-
-            <!-- Area Chart -->
             <div class="col-xl-8 col-lg-7 mx-auto">
                 <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold mx-auto text-primary">Grafik Kehadiran Pelatih Bulan Ini</h6>
+                        <h6 class="m-0 font-weight-bold mx-auto text-primary">Grafik Kehadiran Pelatih</h6>
                     </div>
-                    <!-- Card Body -->
                     <div class="card-body">
-                        <div class="chart-pie pt-4 pb-2">
-                            <canvas id="myPieChart"></canvas>
-                        </div>
-                        <div class="mt-4 text-center small">
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Direct
-                            </span>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-success"></i> Social
-                            </span>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-info"></i> Referral
-                            </span>
-                        </div>
+                        <canvas id="myBarChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Script untuk menggambar grafik dengan Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data yang diambil dari controller
+            var kehadiranPelatih = @json($kehadiranPelatih);
 
+            // Ambil nama-nama pelatih dari data yang ada
+            var pelatihNames = kehadiranPelatih.map(function(item) {
+                return item.nama_pelatih;
+            });
+
+            // Ambil total kehadiran dari data yang ada
+            var kehadiranData = kehadiranPelatih.map(function(item) {
+                return item.total_kehadiran;
+            });
+
+            var ctx = document.getElementById('myBarChart').getContext('2d');
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: pelatihNames,
+                    datasets: [{
+                        label: 'Kehadiran Pelatih',
+                        data: kehadiranData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

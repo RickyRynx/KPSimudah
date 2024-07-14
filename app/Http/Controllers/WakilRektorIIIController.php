@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Ukm;
+use App\Models\Anggota;
+use App\Models\Absensi;
 
 class WakilRektorIIIController extends Controller
 {
@@ -14,8 +18,24 @@ class WakilRektorIIIController extends Controller
      */
     public function index()
     {
-        return view('wakilRektorIII.dashboard.index');
+        $ukms = Ukm::all();
+
+        $rataRataKehadiran = [];
+
+        foreach ($ukms as $ukm) {
+            // Menghitung rata-rata kehadiran absensi mahasiswa
+            $totalAbsensi = Absensi::where('ukm_id', $ukm->id)->count();
+            $totalAnggota = $ukm->anggota()->count();
+            $rataRataKehadiran[] = [
+                'nama_ukm' => $ukm->nama_ukm,
+                'rata_rata_kehadiran' => $totalAbsensi > 0 ? round($totalAbsensi / $totalAnggota, 2) : 0,
+            ];
+        }
+
+        // Mengirimkan data ke view
+        return view('wakilRektorIII.dashboard.index', compact('rataRataKehadiran'));
     }
+
 
     /**
      * Show the form for creating a new resource.

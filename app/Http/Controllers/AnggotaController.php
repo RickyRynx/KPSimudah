@@ -15,17 +15,15 @@ class AnggotaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function index()
+    {
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
-     public function index()
-     {
-         $user = Auth::user();
-         $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+        $anggotas = $ukm->anggotas ?? collect();
 
-         $anggotas = $ukm->anggotas ?? collect();
-
-         return view('ketuaUKM.anggota.tampilan', compact('ukm', 'anggotas'));
-     }
-
+        return view('ketuaUKM.anggota.tampilan', compact('ukm', 'anggotas'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -62,6 +60,22 @@ class AnggotaController extends Controller
         $user = Auth::user();
         $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
 
+        if (in_array($validateData['jabatan'], ['KetuaUKM', 'Sekretaris'])) {
+            $existingMember = Anggota::where('ukm_id', $ukm->id)
+                ->where('jabatan', $validateData['jabatan'])
+                ->first();
+
+            if ($existingMember) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors(['jabatan' => 'Jabatan ' . $validateData['jabatan'] . ' sudah ada dalam UKM ini.']);
+            }
+        }
+
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
+
         $anggota = new Anggota([
             'npm' => $validateData['npm'],
             'nama_mahasiswa' => $validateData['nama_mahasiswa'],
@@ -75,7 +89,9 @@ class AnggotaController extends Controller
 
         $anggota->save();
 
-        return redirect()->route('anggota.show', ['id' => $anggota->ukm_id])->with('success', 'Anggota Berhasil Ditambahkan');
+        return redirect()
+            ->route('anggota.show', ['id' => $anggota->ukm_id])
+            ->with('success', 'Anggota Berhasil Ditambahkan');
     }
 
     /**
@@ -91,23 +107,17 @@ class AnggotaController extends Controller
         $anggotas = $ukm->anggotas ?? collect(); // Gunakan ?? untuk mengatasi ketika $ukm->anggotas bernilai null
         $anggotas = Anggota::orderBy('id', 'asc')->get();
         return view('ketuaUKM.anggota.show', compact('anggotas', 'ukm'));
-
     }
-
-
 
     public function showUserDetail($id)
     {
         $anggota = Anggota::findOrFail($id);
 
-    // Assumption: Ukm model has a relationship with User
+        // Assumption: Ukm model has a relationship with User
         $userId = optional($anggota->ukm->user)->id; // Mengambil ID user dari relasi Ukm
 
         return redirect()->route('user.show', $userId);
     }
-
-
-
 
     /**
      * Show the form for editing the specified resource.
@@ -145,7 +155,9 @@ class AnggotaController extends Controller
         $anggota = Anggota::findOrFail($id);
         $anggota->update($validateData);
 
-        return redirect()->route('anggota.show', ['id' => $anggota->ukm_id])->with('success', 'Anggota Berhasil Diperbarui');
+        return redirect()
+            ->route('anggota.show', ['id' => $anggota->ukm_id])
+            ->with('success', 'Anggota Berhasil Diperbarui');
     }
 
     /**
@@ -159,6 +171,4 @@ class AnggotaController extends Controller
         $anggota = Anggota::findOrFail($id);
         $anggota->delete();
     }
-
-
 }

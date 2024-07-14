@@ -127,6 +127,7 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     route::resource('/addPelatih', AddPelatihController::class);
     route::resource('/addAdminKeuangan', AddAdminKeuanganController::class);
     route::resource('/addBidangKemahasiswaan', AddBidangKemahasiswaanController::class);
+    Route::post('/laporanPelatih/filter', [LaporanPelatihAdminKeuanganController::class, 'filter'])->name('laporanPelatih.filter');
 });
 
 // Route::resource('/laporanKegiatanKemahasiswaan', LaporanKegiatanKemahasiswaanController::class);

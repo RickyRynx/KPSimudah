@@ -49,7 +49,7 @@
     <section class="features-icons bg-light text-center">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4">
+                {{-- <div class="col-lg-4">
                     <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                         <div class="features-icons-icon d-flex"><i class="bi-window m-auto text-primary"></i></div>
                         <h3>Fully Responsive</h3>
@@ -151,7 +151,9 @@
                         <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary"></i></div>
                         <h3>Easy to Use</h3>
                     </div>
-                </div>
+                </div> --}}
+
+                <img src="{{ asset('img/logo.png') }}" alt="SiMUDAH Logo">
             </div>
         </div>
     </section>
@@ -161,7 +163,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
-                    <ul class="list-inline mb-2">
+                    {{-- <ul class="list-inline mb-2">
                         <li class="list-inline-item"><a href="#!">About</a></li>
                         <li class="list-inline-item">⋅</li>
                         <li class="list-inline-item"><a href="#!">Contact</a></li>
@@ -169,8 +171,8 @@
                         <li class="list-inline-item"><a href="#!">Terms of Use</a></li>
                         <li class="list-inline-item">⋅</li>
                         <li class="list-inline-item"><a href="#!">Privacy Policy</a></li>
-                    </ul>
-                    <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2023. All Rights Reserved.</p>
+                    </ul> --}}
+                    <p class="text-muted small mb-4 mb-lg-0">&copy; Simudah 2024. All Rights Reserved.</p>
                 </div>
                 <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
                     <ul class="list-inline mb-0">

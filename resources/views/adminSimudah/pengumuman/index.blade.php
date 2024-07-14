@@ -5,14 +5,14 @@
         <div class="card shadow m-4">
             <div class="card-header py-3">
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-0">
+                {{-- <div class="d-sm-flex align-items-center justify-content-between mb-0">
                     <a href="{{ route('pengumumanAdminSimudah.create') }}" class="btn btn-auto  btn-primary shadow-sm">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus-square"></i>
                         </span>
                         <span class="text">Tambah Pengumuman</span>
                     </a>
-                </div>
+                </div> --}}
 
                 <div class="card-body py-3">
                     <h1>Pengumuman</h1>

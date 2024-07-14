@@ -54,9 +54,6 @@
 
                                 <a href="{{ route('inventaris.show', ['id' => $ukm->id]) }}"
                                     class="btn btn-auto  btn-primary shadow-sm">
-                                    <span class="icon text-black-50">
-                                        <i class="fas fa-plus-square"></i>
-                                    </span>
                                     <span class="text">Batal</span>
                                 </a>
                             </div>

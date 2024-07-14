@@ -13,19 +13,46 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <!-- Form Input Tanggal -->
-                        <form action="/submit-endpoint" method="post" id="myForm">
+                        <form action="{{ route('laporanPelatih.filter') }}" method="post" id="myForm">
+                            @csrf
                             <div class="form-group">
                                 <label for="tanggalMulai">Tanggal Mulai:</label>
-                                <input type="date" id="tanggalMulai" name="tanggalMulai" class="form-control">
+                                <input type="date" id="tanggalMulai" name="tanggalMulai" class="form-control" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="tanggalSelesai">Tanggal Selesai:</label>
-                                <input type="date" id="tanggalSelesai" name="tanggalSelesai" class="form-control">
+                                <input type="date" id="tanggalSelesai" name="tanggalSelesai" class="form-control"
+                                    required>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Lihat</button>
                         </form>
+
+                        @if (isset($laporan))
+                            <h4 class="mt-4">Laporan Kehadiran Pelatih dari {{ $tanggalMulai }} sampai
+                                {{ $tanggalSelesai }}</h4>
+                            <table class="table table-bordered mt-4">
+                                <thead>
+                                    <tr>
+                                        <th>Nama UKM</th>
+                                        {{-- <th>Nama Pelatih</th> --}}
+                                        <th>Kehadiran Pelatih</th>
+                                        <th>Jumlah Latihan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($laporan as $data)
+                                        <tr>
+                                            <td>{{ $data['ukm'] }}</td>
+                                            {{-- <td>{{ $data['pelatih'] }}</td> --}}
+                                            <td>{{ $data['total_kehadiran'] }}</td>
+                                            <td>{{ $data['jumlah_latihan'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
 
                         <script>
                             // JavaScript untuk mereset tanggal pada form

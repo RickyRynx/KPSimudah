@@ -60,5 +60,10 @@ class Ukm extends Model
     {
         return $this->hasMany(User::class, 'ukm_id');
     }
+
+    public function anggota()
+    {
+        return $this->hasMany(Anggota::class);
+    }
 }
 

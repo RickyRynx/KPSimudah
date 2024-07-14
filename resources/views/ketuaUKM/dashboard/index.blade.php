@@ -28,8 +28,7 @@
 
         <!-- Content Row -->
         <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Anggota Card -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <a class="list-group-item list-group-item-action" href="/anggota">
                     <div class="card shadow h-100 py-0">
@@ -41,11 +40,11 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col text-center mr-2">
-                                    <div class="h5 mt-3 font-weight-bold text-gray-800">00/105</div>
+                                    <div class="h5 mt-3 font-weight-bold text-gray-800">{{ $anggotas }}</div>
                                     <div class="h5 mt-3 font-weight-bold text-gray-800">Currently</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                    <i class="far fa-address-book fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -53,8 +52,7 @@
                 </a>
             </div>
 
-
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Absensi Card -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <a class="list-group-item list-group-item-action" href="/absensi">
                     <div class="card shadow h-100 py-0">
@@ -66,11 +64,11 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col text-center mr-2">
-                                    <div class="h5 mt-3 font-weight-bold text-gray-800">00/105</div>
+                                    <div class="h5 mt-3 font-weight-bold text-gray-800">{{ $absensis }}</div>
                                     <div class="h5 mt-3 font-weight-bold text-gray-800">Currently</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                    <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +76,7 @@
                 </a>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Kegiatan Card -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <a class="list-group-item list-group-item-action" href="/kegiatan">
                     <div class="card shadow h-100 py-0">
@@ -90,8 +88,7 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col text-center mr-2">
-                                    <div class="h5 mt-3 font-weight-bold text-gray-800">00/105
-                                    </div>
+                                    <div class="h5 mt-3 font-weight-bold text-gray-800">{{ $kegiatans }}</div>
                                     <div class="h5 mt-3 font-weight-bold text-gray-800">Currently</div>
                                 </div>
                                 <div class="col-auto">
@@ -103,7 +100,7 @@
                 </a>
             </div>
 
-            <!-- Pending Requests Card Example -->
+            <!-- Inventaris Card -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <a class="list-group-item list-group-item-action" href="/inventaris">
                     <div class="card shadow h-100 py-0">
@@ -115,11 +112,11 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col text-center mr-2">
-                                    <div class="h5 mt-3 font-weight-bold text-gray-800">00/105</div>
+                                    <div class="h5 mt-3 font-weight-bold text-gray-800">{{ $inventaris }}</div>
                                     <div class="h5 mt-3 font-weight-bold text-gray-800">Currently</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    <i class="fas fa-archive fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -128,99 +125,38 @@
             </div>
         </div>
 
+
         <!-- Content Row -->
 
         <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-7 col-lg-5">
+            <div class="col-xl-7 col-lg-5 mx-auto">
                 <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Jadwal</h6>
                     </div>
-                    <!-- Card Body -->
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-2 mb-1">
-                                <div>Rabu</div>
-                                <div>26</div>
-                                <div>Juni</div>
-                                <div class="card bg-primary text-white shadow">
-                                    <div class="card-body mb-5 text-xs">
-                                        Primary
-                                        <div class="text-white-50 small">#4e73df</div>
-                                    </div>
+                            @forelse ($jadwals as $jadwal)
+                                <div class="col-lg-6 mb-1">
+                                    <div>UKM/HMJ: {{ $ukm->nama_ukm }}</div>
+                                    <div>Jadwal Latihan: {{ $jadwal->waktu_mulai }} - {{ $jadwal->waktu_selesai }}</div>
+                                    <div>Tempat: {{ $jadwal->tempat }}</div>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-2 mb-1">
-                                <div>Rabu</div>
-                                <div>26</div>
-                                <div>Juni</div>
-                                <div class="card bg-primary text-white shadow">
-                                    <div class="card-body mb-5 text-xs">
-                                        Primary
-                                        <div class="text-white-50 small">#4e73df</div>
-                                    </div>
+                            @empty
+                                <div class="col-12">
+                                    <p class="text-center">Tidak ada jadwal yang tersedia.</p>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-2 mb-1">
-                                <div>Rabu</div>
-                                <div>26</div>
-                                <div>Juni</div>
-                                <div class="card bg-primary text-white shadow">
-                                    <div class="card-body mb-5 text-xs">
-                                        Primary
-                                        <div class="text-white-50 small">#4e73df</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 mb-1">
-                                <div>Rabu</div>
-                                <div>26</div>
-                                <div>Juni</div>
-                                <div class="card bg-primary text-white shadow">
-                                    <div class="card-body mb-5 text-xs">
-                                        Primary
-                                        <div class="text-white-50 small">#4e73df</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 mb-1">
-                                <div>Rabu</div>
-                                <div>26</div>
-                                <div>Juni</div>
-                                <div class="card bg-primary text-white shadow">
-                                    <div class="card-body mb-5 text-xs">
-                                        Primary
-                                        <div class="text-white-50 small">#4e73df</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 mb-1">
-                                <div>Rabu</div>
-                                <div>26</div>
-                                <div>Juni</div>
-                                <div class="card bg-primary text-white shadow">
-                                    <div class="card-body mb-5 text-xs">
-                                        Primary
-                                        <div class="text-white-50 small">#4e73df</div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            @endforelse
                         </div>
                     </div>
                 </div>
             </div>
 
+
             <!-- Pie Chart -->
-            <div class="col-xl-5 col-lg-7">
+            {{-- <div class="col-xl-5 col-lg-7">
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -258,7 +194,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
 

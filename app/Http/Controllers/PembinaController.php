@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Ukm;
+use App\Models\Anggota;
+use App\Models\Absensi;
 use Illuminate\Support\Facades\Auth;
 
 class PembinaController extends Controller
@@ -16,7 +19,22 @@ class PembinaController extends Controller
      */
     public function index()
     {
-        return view('pembina.dashboard.index');
+        $user = Auth::user();
+        
+        // Mengambil data UKM yang dibina oleh user
+        $ukm = Ukm::where('pembina_id', $user->id)->first();
+        
+        // Mengambil data absensi anggota UKM
+        $absensiData = $ukm ? Absensi::where('ukm_id', $ukm->id)->get() : collect();
+
+        // Mengelompokkan data absensi per bulan
+        $keaktifanData = $absensiData->groupBy(function($item) {
+            return $item->created_at->format('Y-m');
+        })->map(function($group) {
+            return $group->count();
+        });
+
+        return view('pembina.dashboard.index', compact('user', 'keaktifanData'));
     }
 
     /**
