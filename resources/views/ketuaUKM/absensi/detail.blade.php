@@ -12,10 +12,11 @@
                 <p>Keterangan: {{ $absensi->keterangan }}</p>
                 <p>Jam Mulai: {{ $absensi->waktu_mulai }}</p>
                 <p>Jam Selesai: {{ $absensi->waktu_selesai }}</p>
+                <p>Kehadiran Pelatih: {{ $absensi->kehadiran_pelatih }}</p>
                 <img src="{{ url('storage/foto_absensi/' . $absensi->image) }}" alt="{{ $absensi->image }}"
                     style="max-width: 100px;">
 
-                <h3>Detail Absensi Anggota</h3>
+                <h3 class="mt-2">Detail Absensi Anggota</h3>
                 <table class="table table-bordered table-responsive">
                     <thead>
                         <tr>

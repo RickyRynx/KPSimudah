@@ -46,7 +46,7 @@ class JadwalAdminSimudahController extends Controller
     public function store(Request $request)
 {
     $validateData = $request->validate([
-        'ukm_id' => 'required|exists:ukms,id',
+        'ukm_id' => 'required|exists:ukms,id|unique:jadwals,ukm_id',
         'waktu_mulai' => 'required|date_format:H:i',
         'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
         'hari' => 'required|array',
@@ -99,13 +99,13 @@ class JadwalAdminSimudahController extends Controller
             'hari' => 'required|array',
             'tempat' => 'required|string|max:255',
         ]);
-    
+
         // Convert array to JSON for database storage
         $validatedData['hari'] = implode(',', $validatedData['hari']);
-    
+
         $jadwal = Jadwal::findOrFail($id);
         $jadwal->update($validatedData);
-    
+
         return redirect()->route('adminSimudah.jadwal.index')->with('success', 'Jadwal berhasil diperbarui.');
     }
 

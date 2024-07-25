@@ -133,6 +133,9 @@ class AddKetuaUKMController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('addKetuaUKM.index')->with('success', 'Akun Ketua UKM berhasil dihapus');
     }
 }

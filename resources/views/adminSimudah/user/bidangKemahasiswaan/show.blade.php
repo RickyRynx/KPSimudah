@@ -2,6 +2,9 @@
 @section('content')
     <div class="container col-10">
         <div class="card shadow m-4">
+            @if (session('success'))
+                <p style="color: green;">{{ session('success') }}</p>
+            @endif
             <div class="card-header py-3">
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-0">

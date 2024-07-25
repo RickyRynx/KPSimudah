@@ -50,7 +50,7 @@ class AddPembinaController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'string', 'in:ketuaMahasiswa'],
+            'role' => ['required', 'string', 'in:pembina'],
         ]);
 
         $user = User::create([
@@ -130,6 +130,9 @@ class AddPembinaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('addPembina.index')->with('success', 'Akun Pembina berhasil dihapus');
     }
 }

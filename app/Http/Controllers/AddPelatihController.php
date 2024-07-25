@@ -50,7 +50,7 @@ class AddPelatihController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'string', 'in:ketuaMahasiswa'],
+            'role' => ['required', 'string', 'in:pelatih'],
         ]);
 
         $user = User::create([
@@ -130,6 +130,9 @@ class AddPelatihController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('addPelatih.index')->with('success', 'Akun Pelatih berhasil dihapus');
     }
 }

@@ -1,6 +1,9 @@
 @extends('layout.masterAddKetuaUKM')
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
         <div class="card shadow m-4">
             <div class="card-header py-3">
                 <!-- Page Heading -->
@@ -38,7 +41,14 @@
                                     {{-- <td>{{ $ketua->ukm->nama_ukm }}</td> --}}
                                     <td>
                                         <a href="{{ route('addKetuaUKM.edit', $ketua->id) }}"
-                                            class="btn btn-primary">Edit</a>
+                                            class="btn btn-primary mb-2">Edit</a>
+                                        <form action="{{ route('addKetuaUKM.destroy', $ketua->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('Anda yakin ingin menghapus akun ini?')">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty

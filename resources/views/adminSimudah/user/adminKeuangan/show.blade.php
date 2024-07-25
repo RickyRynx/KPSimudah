@@ -1,6 +1,9 @@
 @extends('layout.masterAddAdminKeuangan')
 @section('content')
     <div class="container col-8">
+        @if (session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
         <div class="card shadow m-4">
             <div class="card-header py-3">
                 <!-- Page Heading -->
