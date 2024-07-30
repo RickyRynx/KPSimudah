@@ -24,6 +24,7 @@
                                 <div class="mb-1">
                                     <label for="image" class="form-label">Upload Foto</label>
                                     <input type="file" class="form-control" name="image" accept=".jpg" required>
+                                    <p>*Format Gambar Harus JPG/PNG/JPEG & Maksimal Ukuran Gambar 3 MB</p>
                                 </div>
 
                                 <div class="form-group">

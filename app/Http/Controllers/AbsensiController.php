@@ -64,7 +64,7 @@ class AbsensiController extends Controller
     {
         $validateData = $request->validate([
             'keterangan' => 'required',
-            'image' => 'required|mimes:jpeg,png,jpg,gif',
+            'image' => 'required|mimes:jpeg,png,jpg,gif|max:3072',
             'kehadiran_pelatih' => 'required|in:Hadir,Tidak Hadir',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
@@ -180,7 +180,8 @@ class AbsensiController extends Controller
 
     public function detail($id)
     {
-        $ukm = Ukm::findOrFail($id);
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
         $absensi = Absensi::findOrFail($id);
         $absensiDetails = AbsensiDetail::where('absensi_id', $id)->get();
 

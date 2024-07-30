@@ -26,6 +26,7 @@
         </script>
 
         <div class="row">
+            <!-- Grafik Kehadiran Anggota UKM -->
             <div class="col-xl-6 col-lg-7">
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
@@ -35,7 +36,7 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
+                            <canvas id="kehadiranHarianChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -51,7 +52,7 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-area">
-                            <canvas id="ukmActivityChart"></canvas>
+                            <canvas id="keaktifanBulananChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -61,20 +62,19 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                var ctxArea = document.getElementById('myAreaChart').getContext('2d');
-                var ctxUkmActivity = document.getElementById('ukmActivityChart').getContext('2d');
+                // Data untuk Grafik Kehadiran Harian
+                var ctxHarian = document.getElementById('kehadiranHarianChart').getContext('2d');
+                var kehadiranHarianData = @json($kehadiranHarian);
+                var labelsHarian = Object.keys(kehadiranHarianData);
+                var dataHarian = Object.values(kehadiranHarianData);
 
-                var keaktifanData = @json($keaktifanData);
-                var labels = Object.keys(keaktifanData);
-                var data = Object.values(keaktifanData);
-
-                var myAreaChart = new Chart(ctxArea, {
+                var kehadiranHarianChart = new Chart(ctxHarian, {
                     type: 'line',
                     data: {
-                        labels: labels,
+                        labels: labelsHarian,
                         datasets: [{
-                            label: 'Kehadiran Anggota',
-                            data: data,
+                            label: 'Kehadiran Harian',
+                            data: dataHarian,
                             backgroundColor: 'rgba(78, 115, 223, 0.05)',
                             borderColor: 'rgba(78, 115, 223, 1)',
                             pointRadius: 3,
@@ -137,13 +137,19 @@
                     }
                 });
 
-                var ukmActivityChart = new Chart(ctxUkmActivity, {
+                // Data untuk Grafik Keaktifan Bulanan
+                var ctxBulanan = document.getElementById('keaktifanBulananChart').getContext('2d');
+                var keaktifanBulananData = @json($keaktifanBulanan);
+                var labelsBulanan = Object.keys(keaktifanBulananData);
+                var dataBulanan = Object.values(keaktifanBulananData);
+
+                var keaktifanBulananChart = new Chart(ctxBulanan, {
                     type: 'bar',
                     data: {
-                        labels: labels,
+                        labels: labelsBulanan,
                         datasets: [{
-                            label: 'Keaktifan UKM',
-                            data: data,
+                            label: 'Keaktifan Bulanan',
+                            data: dataBulanan,
                             backgroundColor: 'rgba(2, 117, 216, 0.75)',
                             borderColor: 'rgba(2, 117, 216, 1)',
                             borderWidth: 1

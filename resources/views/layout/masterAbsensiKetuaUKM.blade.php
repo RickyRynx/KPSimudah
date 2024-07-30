@@ -55,7 +55,7 @@
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('jadwal') }}">
+                    <a class="nav-link" href="{{ route('jadwal.show', ['id' => $ukm->id]) }}">
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                         <span>Jadwal</span>
                     </a>
@@ -63,35 +63,35 @@
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('anggota') }}">
+                    <a class="nav-link" href="{{ route('anggota.show', ['id' => $ukm->id]) }}">
                         <i class="far fa-address-book"></i>
                         <span>Anggota</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('kegiatan') }}">
+                    <a class="nav-link" href="{{ route('kegiatan.show', ['id' => $ukm->id]) }}">
                         <i class="fa fa-list" aria-hidden="true"></i>
                         <span>Kegiatan/Lomba</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('absensi') }}">
+                    <a class="nav-link" href="{{ route('absensi.show', ['id' => $ukm->id]) }}">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <span>Absensi</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('pengumuman') }}">
+                    <a class="nav-link" href="{{ route('pengumuman.show', ['id' => $ukm->id]) }}">
                         <i class="fas fa-bullhorn"></i>
                         <span>Pengumuman</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('inventaris') }}">
+                    <a class="nav-link" href="{{ route('inventaris.show', ['id' => $ukm->id]) }}">
                         <i class="fas fa-archive"></i>
                         <span>Inventaris</span>
                     </a>

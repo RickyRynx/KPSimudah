@@ -20,21 +20,28 @@ class PelatihController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+
         // Mengambil data UKM yang dibina oleh user
         $ukm = Ukm::where('pelatih_id', $user->id)->first();
-        
+
         // Mengambil data absensi anggota UKM
         $absensiData = $ukm ? Absensi::where('ukm_id', $ukm->id)->get() : collect();
 
+        // Mengelompokkan data absensi per hari
+        $kehadiranHarian = $absensiData->groupBy(function($item) {
+            return $item->created_at->format('Y-m-d');
+        })->map(function($group) {
+            return $group->count();
+        });
+
         // Mengelompokkan data absensi per bulan
-        $keaktifanData = $absensiData->groupBy(function($item) {
+        $keaktifanBulanan = $absensiData->groupBy(function($item) {
             return $item->created_at->format('Y-m');
         })->map(function($group) {
             return $group->count();
         });
 
-        return view('pelatih.dashboard.index', compact('user', 'keaktifanData'));
+        return view('pelatih.dashboard.index', compact('user', 'kehadiranHarian', 'keaktifanBulanan'));
     }
 
     /**

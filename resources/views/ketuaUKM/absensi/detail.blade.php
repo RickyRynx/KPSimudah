@@ -1,4 +1,4 @@
-@extends('layout.masterAbsensiKetuaUKM')
+@extends('layout.masterDetailAbsensiKetuaUKM')
 @section('content')
     <div class="container">
         <div class="card shadow m-4">

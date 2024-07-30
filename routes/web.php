@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     Route::delete('/pengumuman/{id}', 'PengumumanController@destroy')->name('pengumuman.destroy');
     Route::resource('/absensi', absensiController::class)->parameters(['absensi' => 'id']);
     Route::get('/absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
-    Route::get('/absensi/{id}/detail', [AbsensiController::class, 'detail'])->name('absensi.detail');
+    Route::get('/absensi/detail/{id}', [AbsensiController::class, 'detail'])->name('absensi.detail');
     Route::put('/absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::resource('/jadwal', JadwalController::class)->parameters(['jadwal' => 'id']);
     Route::resource('/jadwalPelatih', JadwalPelatihController::class)->parameters(['jadwalPelatih' => 'id']);
