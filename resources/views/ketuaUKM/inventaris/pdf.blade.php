@@ -7,9 +7,6 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            padding-bottom: 100px;
-            /* Ruang untuk footer */
-            position: relative;
         }
 
         header {
@@ -38,8 +35,6 @@
             width: 100%;
             border: 1px solid black;
             border-collapse: collapse;
-            margin-bottom: 100px;
-            /* Jarak dari footer */
         }
 
         thead th {
@@ -57,17 +52,12 @@
             width: 100%;
             font-size: 12px;
             padding: 10px;
-            /* border-top: 1px solid #000; */
-            position: absolute;
-            bottom: 0;
-            left: 0;
+            border-top: 1px solid #000;
             display: flex;
-            justify-content: space-between;
-        }
-
-        .footer-left,
-        .footer-right {
-            flex: 1;
+            /* justify-content: space-between; */
+            align-items: center;
+            position: fixed;
+            bottom: 0;
         }
 
         .footer-left {
@@ -86,45 +76,37 @@
 
 <body>
     <header>
-        <img src="{{ $base64Logo }}" alt="Logo" class="logo">
-        <h1>Laporan Kegiatan & Absensi {{ $absensis->ukm->nama_ukm }}</h1>
+        <img src="{{ $base64Logo }}" alt="logo" class="logo">
+        <h1>Sistem Informasi UKM dan HMJ MDP (SIMUDAH MDP)</h1>
         <div class="spacer"></div>
     </header>
     <hr>
 
-    <p>UKM: {{ $absensis->ukm->nama_ukm }}</p>
-    <p>Tanggal: {{ $absensis->created_at->format('d M Y') }}</p>
-    <p>Keterangan: {{ $absensis->keterangan }}</p>
-    <p>Kehadiran Pelatih: {{ $absensis->kehadiran_pelatih }}</p>
-    <p>Waktu Mulai: {{ $absensis->waktu_mulai }}</p>
-    <p>Waktu Selesai: {{ $absensis->waktu_selesai }}</p>
-
-    <h2>Detail Kehadiran Anggota {{ $absensis->ukm->nama_ukm }}</h2>
-    <table border="1" cellpadding="5" cellspacing="0">
+    <h1 class="mt-3">Laporan Inventaris {{ $ukm->nama_ukm }}</h1>
+    <table class="mt-2">
         <thead>
             <tr>
-                <th>Nama Anggota</th>
-                <th>Status Kehadiran</th>
+                <th>No</th>
+                <th>Nama Barang</th>
+                <th>Jumlah</th>
+                <th>Jumlah Rusak</th>
+                <th>Jumlah Bagus</th>
                 <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($absensiDetails as $detail)
+            @foreach ($inventaris as $index => $item)
                 <tr>
-                    <td>{{ $detail->anggota->nama_mahasiswa }}</td>
-                    <td>{{ $detail->status_absensi }}</td>
-                    <td>{{ $detail->keterangan_absensi }}</td>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $item->nama_barang }}</td>
+                    <td>{{ $item->jumlah }}</td>
+                    <td>{{ $item->jumlah_rusak }}</td>
+                    <td>{{ $item->jumlah_bagus }}</td>
+                    <td>{{ $item->keterangan }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
-    <p>*Note</p>
-    <p>H: Hadir</p>
-    <p>I: Izin</p>
-    <p>A: Alpa</p>
-
-    <h3 class="mb-3">Total Kehadiran: {{ $absensiDetails->where('status_absensi', 'H')->count() }}</h3>
 
     <footer>
         <div class="footer-left">
@@ -143,7 +125,6 @@
             <p>{{ $ukm->pembina->name }}</p>
         </div>
     </footer>
-
 </body>
 
 </html>

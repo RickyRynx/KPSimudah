@@ -128,6 +128,8 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     route::resource('/addAdminKeuangan', AddAdminKeuanganController::class);
     route::resource('/addBidangKemahasiswaan', AddBidangKemahasiswaanController::class);
     Route::post('/laporanPelatih/filter', [LaporanPelatihAdminKeuanganController::class, 'filter'])->name('laporanPelatih.filter');
+    Route::get('inventaris/{id}/history', [InventarisController::class, 'history'])->name('inventaris.history');Route::get('inventaris/pdf/{ukm_id}', [InventarisController::class, 'generatePDF'])->name('inventaris.pdf');
+    Route::get('inventaris/pdf/{ukm_id}', [InventarisController::class, 'generatePDF'])->name('inventaris.pdf');
 });
 
 // Route::resource('/laporanKegiatanKemahasiswaan', LaporanKegiatanKemahasiswaanController::class);

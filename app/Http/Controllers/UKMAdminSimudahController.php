@@ -14,10 +14,23 @@ class UKMAdminSimudahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ukms = Ukm::orderBy('id', 'asc')->paginate();
-        $ukms = Ukm::all(); // Mengambil semua data UKM dari database
+        $status = $request->input('status');
+        $kategori = $request->input('kategori');
+
+        $query = Ukm::query();
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        if ($kategori) {
+            $query->where('kategori', $kategori);
+        }
+
+        $ukms = $query->get();
+
         return view('adminSimudah.ukm.index', compact('ukms'));
     }
 

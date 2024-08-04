@@ -124,8 +124,10 @@ class KegiatanController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        $ukm = Ukm::where('ketuaMahasiswa_id', $user->id)->first();
         $kegiatan = Kegiatan::findOrFail($id);
-        return view('ketuaUKM.kegiatan.edit', compact('kegiatan'));
+        return view('ketuaUKM.kegiatan.edit', compact('ukm', 'kegiatan'));
     }
 
     /**

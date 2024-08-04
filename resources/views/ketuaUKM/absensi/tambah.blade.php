@@ -23,8 +23,10 @@
 
                                 <div class="mb-1">
                                     <label for="image" class="form-label">Upload Foto</label>
-                                    <input type="file" class="form-control" name="image" accept=".jpg" required>
-                                    <p>*Format Gambar Harus JPG/PNG/JPEG & Maksimal Ukuran Gambar 3 MB</p>
+                                    <input type="file" class="form-control" name="image" accept=".jpg, .jpeg, .png"
+                                        required>
+                                    <h6 style="color: red">*Format gambar harus jpg/png/jpeg dan maksimal ukuran gambar 3 MB
+                                    </h6>
                                 </div>
 
                                 <div class="form-group">
@@ -79,8 +81,9 @@
                                                             value="I"></td>
                                                     <td><input type="radio" name="status_absensi[{{ $anggotaItem->id }}]"
                                                             value="A" checked></td>
-                                                    <td><input type="text" name="keterangan_absensi">
-                                                    </td>
+                                                    <td><input type="text"
+                                                            name="keterangan_absensi[{{ $anggotaItem->id }}]"
+                                                            class="keterangan-absensi"></td>
                                                 </tr>
                                             @endif
                                         @endforeach
@@ -102,6 +105,26 @@
                                         let radioButtons = document.querySelectorAll('input[type="radio"][value="H"]');
                                         radioButtons.forEach(button => {
                                             button.checked = true;
+                                            let anggotaId = button.name.match(/\d+/)[0];
+                                            let keteranganField = document.querySelector(
+                                                `input[name="keterangan_absensi[${anggotaId}]"]`);
+                                            keteranganField.value = 'Hadir';
+                                        });
+                                    });
+
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        let radioButtons = document.querySelectorAll('input[name^="status_absensi"]');
+                                        radioButtons.forEach(radio => {
+                                            radio.addEventListener('change', function() {
+                                                let anggotaId = this.name.match(/\d+/)[0];
+                                                let keteranganField = document.querySelector(
+                                                    `input[name="keterangan_absensi[${anggotaId}]"]`);
+                                                if (this.value === 'H') {
+                                                    keteranganField.value = 'Hadir';
+                                                } else {
+                                                    keteranganField.value = '';
+                                                }
+                                            });
                                         });
                                     });
                                 </script>
@@ -157,7 +180,6 @@
                                         });
                                     });
                                 </script>
-
                             </div>
                         </form>
 

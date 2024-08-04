@@ -24,11 +24,11 @@
                                     <input type="text" class="form-control" name="isi_pengumuman" required>
                                 </div>
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="waktu_upload" class="form-label">Waktu Upload</label>
                                     <input type="date" class="form-control" name="waktu_upload"
                                         value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" readonly>
-                                </div>
+                                </div> --}}
 
                                 <button type="submit" class="btn btn-success btn-primary shadow-sm bg-green mb-2"
                                     style="background-color: green;">Tambah Pengumuman</button>

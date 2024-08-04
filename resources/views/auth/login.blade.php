@@ -74,7 +74,7 @@
                                                 placeholder="Password">
                                         </div>
 
-                                        <!-- Remember Me -->
+                                        {{-- <!-- Remember Me -->
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input id="remember_me" type="checkbox" class="custom-control-input"
@@ -82,7 +82,7 @@
                                                 <label class="custom-control-label"
                                                     for="remember_me">{{ __('Remember Me') }}</label>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -93,8 +93,7 @@
                                         <hr>
 
                                         <div class="text-center">
-                                            <a class="small" href="{{ route('password.request') }}">Forgot
-                                                Password?</a>
+                                            <a class="small" href="{{ route('password.request') }}">Lupa Password?</a>
                                         </div>
                                         {{-- <div class="text-center">
                                             <a class="small" href="{{ route('register') }}">Don't Have Account?? Please

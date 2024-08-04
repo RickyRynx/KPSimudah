@@ -6,7 +6,6 @@
         @endif
         <div class="card shadow m-4">
             <div class="card-header py-3">
-                <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-0">
                     <a href="{{ url('ukm/create') }}" class="btn btn-auto btn-primary shadow-sm">
                         <span class="icon text-white-50">
@@ -20,6 +19,30 @@
             <div class="card-body py-3">
                 <h1>UKM/HMJ</h1>
 
+                <form method="GET" action="{{ route('ukm.index') }}">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="status">Status</label>
+                            <select id="status" name="status" class="form-control">
+                                <option value="">Pilih Status</option>
+                                <option value="Aktif" {{ request('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="Tidak Aktif" {{ request('status') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak
+                                    Aktif</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="kategori">Kategori</label>
+                            <select id="kategori" name="kategori" class="form-control">
+                                <option value="">Pilih Kategori</option>
+                                <option value="UKM" {{ request('kategori') == 'UKM' ? 'selected' : '' }}>UKM</option>
+                                <option value="HMJ" {{ request('kategori') == 'HMJ' ? 'selected' : '' }}>HMJ</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3 align-self-end">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </div>
+                    </div>
+                </form>
 
                 <div class="table-responsive mt-3">
                     <table class="table table-bordered table-responsive" id="dataTable">
@@ -50,9 +73,9 @@
                                     </td>
                                 </tr>
                             @empty
-                                <div class="alert alert-danger">
-                                    Data UKM/HMJ Belum Tersedia.
-                                </div>
+                                <tr>
+                                    <td colspan="8" class="text-center">Data UKM/HMJ Belum Tersedia.</td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>

@@ -49,7 +49,7 @@ class PengumumanController extends Controller
         $validateData = $request->validate([
             'judul' => 'required',
             'isi_pengumuman' => 'required',
-            'waktu_upload' => 'required',
+            // 'waktu_upload' => 'required',
         ]);
 
         $user = Auth::user(); // Mendapatkan informasi user yang sedang terautentikasi
@@ -59,7 +59,7 @@ class PengumumanController extends Controller
         $pengumuman = new Pengumuman([
             'judul' => $validateData['judul'],
             'isi_pengumuman' => $validateData['isi_pengumuman'],
-            'waktu_upload' => $validateData['waktu_upload'],
+            // 'waktu_upload' => $validateData['waktu_upload'],
             'ketuaMahasiswa_id' => $user->id, // Menetapkan ID user sebagai ketua
             'ukm_id' => $ukm->id, // Menetapkan ID UKM
         ]);
