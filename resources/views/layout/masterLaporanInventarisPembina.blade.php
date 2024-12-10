@@ -63,6 +63,13 @@
                 </li>
 
                 <li class="nav-item active">
+                    <a class="nav-link" href="/laporanKegiatan">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Laporan Kegiatan</span>
+                    </a>
+                </li>
+
+                <li class="nav-item active">
                     <a class="nav-link" href="/laporanInventaris">
                         <i class="fas fa-archive"></i>
                         <span>Laporan Inventaris</span>

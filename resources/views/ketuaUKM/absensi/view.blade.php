@@ -38,7 +38,7 @@
             width: 100%;
             border: 1px solid black;
             border-collapse: collapse;
-            margin-bottom: 100px;
+            margin-bottom: 50px;
             /* Jarak dari footer */
         }
 
@@ -55,8 +55,9 @@
 
         footer {
             width: 100%;
-            font-size: 12px;
+            font-size: 16px;
             padding: 10px;
+            padding-top: 50px;
             /* border-top: 1px solid #000; */
             position: absolute;
             bottom: 0;
@@ -103,14 +104,16 @@
     <table border="1" cellpadding="5" cellspacing="0">
         <thead>
             <tr>
+                <th>No</th>
                 <th>Nama Anggota</th>
                 <th>Status Kehadiran</th>
                 <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($absensiDetails as $detail)
+            @foreach ($absensiDetails as $index => $detail)
                 <tr>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $detail->anggota->nama_mahasiswa }}</td>
                     <td>{{ $detail->status_absensi }}</td>
                     <td>{{ $detail->keterangan_absensi }}</td>
@@ -119,14 +122,16 @@
         </tbody>
     </table>
 
-    <p>*Note</p>
+    <p>Status Kehadiran:</p>
     <p>H: Hadir</p>
     <p>I: Izin</p>
     <p>A: Alpa</p>
 
-    <h3 class="mb-3">Total Kehadiran: {{ $absensiDetails->where('status_absensi', 'H')->count() }}</h3>
+    <p style="padding-top: 20px"">Total Kehadiran: {{ $absensiDetails->where('status_absensi', 'H')->count() }}</p>
+    <p>Total Izin: {{ $absensiDetails->where('status_absensi', 'I')->count() }}</p>
+    <p>Total Alpa: {{ $absensiDetails->where('status_absensi', 'A')->count() }}</p>
 
-    <footer>
+    <footer style="padding-top: 50px">
         <div class="footer-left">
             <p>Dibuat oleh:</p>
             <p>Ketua UKM</p>
@@ -135,7 +140,7 @@
         </div>
     </footer>
 
-    <footer>
+    <footer style="padding-top: 50px">
         <div class="footer-right">
             <p>Diketahui oleh:</p>
             <p>Pembina UKM</p>

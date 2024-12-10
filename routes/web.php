@@ -40,6 +40,8 @@ use App\Http\Controllers\AddPembinaController;
 use App\Http\Controllers\AddPelatihController;
 use App\Http\Controllers\AddAdminKeuanganController;
 use App\Http\Controllers\AddBidangKemahasiswaanController;
+use App\Http\Controllers\LaporanKegiatanPembinaController;
+use App\Http\Controllers\DataEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -130,6 +132,8 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     Route::post('/laporanPelatih/filter', [LaporanPelatihAdminKeuanganController::class, 'filter'])->name('laporanPelatih.filter');
     Route::get('inventaris/{id}/history', [InventarisController::class, 'history'])->name('inventaris.history');Route::get('inventaris/pdf/{ukm_id}', [InventarisController::class, 'generatePDF'])->name('inventaris.pdf');
     Route::get('inventaris/pdf/{ukm_id}', [InventarisController::class, 'generatePDF'])->name('inventaris.pdf');
+    Route::resource('/laporanKegiatan', LaporanKegiatanPembinaController::class)->parameters(['laporanKegiatan' => 'id']);
+    Route::resource('/email', DataEmailController::class)->parameters(['email' => 'id']);
 });
 
 // Route::resource('/laporanKegiatanKemahasiswaan', LaporanKegiatanKemahasiswaanController::class);

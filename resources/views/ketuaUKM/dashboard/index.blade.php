@@ -41,7 +41,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col text-center mr-2">
                                     <div class="h5 mt-3 font-weight-bold text-gray-800">{{ $anggotas }}</div>
-                                    <div class="h5 mt-3 font-weight-bold text-gray-800">Currently</div>
+                                    <div class="h5 mt-3 font-weight-bold text-gray-800">Saat Ini</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="far fa-address-book fa-2x text-gray-300"></i>
@@ -65,7 +65,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col text-center mr-2">
                                     <div class="h5 mt-3 font-weight-bold text-gray-800">{{ $absensis }}</div>
-                                    <div class="h5 mt-3 font-weight-bold text-gray-800">Currently</div>
+                                    <div class="h5 mt-3 font-weight-bold text-gray-800">Saat Ini</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
@@ -89,7 +89,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col text-center mr-2">
                                     <div class="h5 mt-3 font-weight-bold text-gray-800">{{ $kegiatans }}</div>
-                                    <div class="h5 mt-3 font-weight-bold text-gray-800">Currently</div>
+                                    <div class="h5 mt-3 font-weight-bold text-gray-800">Saat Ini</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -113,7 +113,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col text-center mr-2">
                                     <div class="h5 mt-3 font-weight-bold text-gray-800">{{ $inventaris }}</div>
-                                    <div class="h5 mt-3 font-weight-bold text-gray-800">Currently</div>
+                                    <div class="h5 mt-3 font-weight-bold text-gray-800">Saat Ini</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-archive fa-2x text-gray-300"></i>

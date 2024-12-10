@@ -56,7 +56,7 @@ class JadwalAdminSimudahController extends Controller
     // Convert array to JSON for database storage
     $validateData['hari'] = implode(',', $validateData['hari']);
     Jadwal::create($validateData);
-    return redirect()->route('jadwalAdminSimudah.index')->with('success', 'Jadwal berhasil diperbarui.');
+    return redirect()->route('jadwalAdminSimudah.index')->with('success', 'Jadwal berhasil ditambahkan.');
 }
 
     /**

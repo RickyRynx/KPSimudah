@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as AuthenticatableUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends AuthenticatableUser implements Authenticatable
 {
-    use AuthenticatableTrait, HasFactory, Notifiable;
+    use AuthenticatableTrait, HasFactory, Notifiable, HasRoles;
 
 
     public function isKetuaUKM()

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SIMUDAH - Pembina</title>
+    <title>SIMUDAH - Laporan Kegiatan</title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}" />
 
@@ -25,23 +25,6 @@
     <!-- Custom styles for this page -->
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
-
 </head>
 
 <body id="page-top">
@@ -55,7 +38,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboardAdminSimudah">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboardPembina">
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-laugh-wink"></i>
                     </div>
@@ -67,47 +50,31 @@
 
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="/dashboardAdminSimudah">
+                    <a class="nav-link" href="/dashboardPembina">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span></a>
                 </li>
 
-
                 <li class="nav-item active">
-                    <a class="nav-link" href="/ukm">
-                        <i class="fas fa-user-friends"></i>
-                        <span>UKM/HMJ</span>
+                    <a class="nav-link" href="/laporanMahasiswa">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Laporan Mahasiswa</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/jadwalAdminSimudah">
-                        <i class="fas fa-calendar"></i>
-                        <span>Jadwal</span>
+                    <a class="nav-link" href="/laporanKegiatan">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Laporan Kegiatan</span>
                     </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/pengumumanAdminSimudah">
-                        <i class="fas fa-bullhorn"></i>
-                        <span>Pengumuman</span>
+                    <a class="nav-link" href="/laporanInventaris">
+                        <i class="fas fa-archive"></i>
+                        <span>Laporan Inventaris</span>
                     </a>
                 </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="/user">
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>User</span>
-                    </a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="/email">
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>Email</span>
-                    </a>
-                </li>
-
             </ul>
             <!-- End of Sidebar -->
 
@@ -132,7 +99,8 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="{{ route('profileAdmin.edit', Auth::user()->id) }}">
+                                    <a class="dropdown-item"
+                                        href="{{ route('profilePembina.edit', Auth::user()->id) }}">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profile
                                     </a>
@@ -166,9 +134,10 @@
                 <!-- End of Main Content -->
 
             </div>
-
         </div>
     </header>
+
+
 
     <!-- Footer -->
     <footer class="sticky-footer bg-white">
@@ -180,7 +149,22 @@
     </footer>
     <!-- End of Footer -->
 
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 
 </body>
 

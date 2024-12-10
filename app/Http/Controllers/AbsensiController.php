@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Carbon\Carbon;
+use App\Models\DataEmail;
 
 class AbsensiController extends Controller
 {
@@ -149,19 +150,18 @@ class AbsensiController extends Controller
             $alamatTujuan = $data_pembina->email;
             $nama_ukm = $ukm->nama_ukm;
 
-            $currentHour = Carbon::now()->hour;
-            if ($currentHour >= 0 && $currentHour < 12) {
-                $timeOfDay = 'Pagi';
-            } elseif ($currentHour >= 12 && $currentHour < 15) {
-                $timeOfDay = 'Siang';
-            } elseif ($currentHour >= 15 && $currentHour < 18) {
-                $timeOfDay = 'Sore';
-            } else {
-                $timeOfDay = 'Malam';
+            // Email CC berdasarkan kondisi
+            $ccEmails = [];
+            if (in_array($nama_ukm, ['Futsal MDP', 'Volley MDP', 'Basket MDP'])) {
+                // Mengambil email dari tabel data_email jika nama UKM sesuai
+                $ccEmails = DataEmail::pluck('email')->toArray();
             }
 
-            // CC Email Address
-            $ccEmails = ['ricky12112002@gmail.com'];
+            // Mengambil email dari tabel user dengan role bidangKemahasiswaan
+            $bidangKemahasiswaanEmails = User::where('role', 'bidangKemahasiswaan')->pluck('email')->toArray();
+
+            // Menggabungkan kedua daftar email untuk CC
+            $ccEmails = array_merge($ccEmails, $bidangKemahasiswaanEmails);
 
             // Kirim email dengan pesan di body dan lampiran PDF
             Mail::send(
@@ -176,7 +176,7 @@ class AbsensiController extends Controller
                         ->cc($ccEmails) // Menambahkan CC ke beberapa email
                         ->subject($subject)
                         ->attachData($pdf->output(), 'absensi_' . $nama_ukm . '.pdf');
-                },
+                }
             );
 
             return redirect()

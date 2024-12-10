@@ -85,6 +85,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item active">
+                    <a class="nav-link" href="/email">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Email</span>
+                    </a>
+                </li>
+
             </ul>
             <!-- End of Sidebar -->
 
